@@ -1,0 +1,250 @@
+export const metadata = { title: "Week 1: Story and Fundamentals" };
+
+<p className="crumbs"><a href="../">Learn</a> / Week 1</p>
+
+# Week 1: Story and Fundamentals
+
+**Target:** product-based companies, Lead / Senior Full Stack roles. **Time:** about 2 hours a day.
+
+<Callout title="Exit criteria (check by Sunday)">
+<Check id="w1-exit-pitch">I can give my 60-second pitch without notes.</Check>
+<Check id="w1-exit-star">I have 6 written STAR stories, each with at least one real number.</Check>
+<Check id="w1-exit-deep">I can draw and defend 3 project deep-dives from memory.</Check>
+<Check id="w1-exit-fund">I can explain the fundamentals checklist below out loud, without reading.</Check>
+<Check id="w1-exit-apply">I have applied to my first 5 companies.</Check>
+</Callout>
+
+## Why product companies interview differently
+
+Services interviews ask what you used. Product interviews ask **what you owned, what you decided, why, and what happened to the user or the business afterwards**. Every answer this week should therefore carry four things: the decision, the alternatives you rejected, the trade-off you accepted, and a number. If you do not have a number yet, finding one is the work (see the metrics worksheet).
+
+## 7-day schedule
+
+| Day | Focus | Output |
+|---|---|---|
+| 1 | Pitch and career narrative | 60-second pitch, 2-minute version, "why product company" answer |
+| 2 | STAR story bank | 6 stories written in the template below |
+| 3 | Deep-dive 1: EA FanCare Help Center | One-page architecture and decision sheet |
+| 4 | Deep-dives 2 and 3: Advance Auto Parts migration, hayneedle / GAP checkout | Two one-page sheets |
+| 5 | JavaScript and TypeScript fundamentals | Checklist below explained aloud; decks: JavaScript and TypeScript, JS Coding and Polyfills |
+| 6 | React and Next.js fundamentals | Checklist below explained aloud; decks: React and Frontend, React Versions and Internals, Next.js Deep Dive |
+| 7 | Mock and apply | Record pitch, 2 stories, 1 deep-dive; review; send 5 applications |
+
+<Check id="w1-d1">Day 1 done</Check>
+<Check id="w1-d2">Day 2 done</Check>
+<Check id="w1-d3">Day 3 done</Check>
+<Check id="w1-d4">Day 4 done</Check>
+<Check id="w1-d5">Day 5 done</Check>
+<Check id="w1-d6">Day 6 done</Check>
+<Check id="w1-d7">Day 7 done</Check>
+
+## Day 1: Pitch and narrative
+
+### 60-second pitch (draft, edit to your voice)
+
+> I'm a lead full stack engineer with 17+ years in software, the last 10+ in cloud web. I started in embedded and industrial systems: Modbus, embedded Linux, monitoring for the Dubai Metro and ISRO GPS stations. That taught me to build things that cannot go down. Since moving fully into web I have built React and Next.js products for EA, Walmart and GAP, and Advance Auto Parts: micro-frontends, design systems, serverless authentication, and a JSP-to-Next.js migration. At EA I work on the FanCare Help Center and passwordless sign-in, and I'm driving an agentic, spec-driven workflow that connects Figma and Jira through MCP. I'm now looking for a product company where I can own a surface end to end and see its impact on users.
+
+Rules: end on what you want next, not on a list of tools. Practise until it takes 55 to 65 seconds.
+
+### Questions to answer in writing
+
+- Why did you move from embedded and industrial systems to web? (What did embedded teach you that web engineers often lack?)
+- Why a product company now, after consulting and client work?
+- What is the one thing you are proudest of in the last 3 years, and why?
+- What do you want to own in the next role?
+
+## Day 2: STAR story bank
+
+Template for every story. Keep each under 2 minutes spoken.
+
+```
+Situation   One or two sentences of context. Who, what, why it mattered.
+Task        What was specifically yours (not the team's).
+Action      3 to 4 concrete things YOU did. Include the decision and the rejected alternative.
+Result      A number (time, %, errors, adoption) and what you learned.
+```
+
+| # | Theme | Where to look in your own history |
+|---|---|---|
+| 1 | Led a technical decision | Advance Auto Parts: JSP to Next.js. You presented a PoC that shaped the stack decision. What did the PoC prove? Who did you convince? |
+| 2 | Production incident | EA: a root-cause analysis you ran using CloudWatch. What was the symptom, the cause, the fix, the prevention? |
+| 3 | Influencing without authority | hayneedle: introducing Storybook and Atomic Design. Who resisted and why? |
+| 4 | Raising the bar | SonarQube, linting and Prettier at Nisum, or Swagger docs at Zen3. What changed in how the team worked? |
+| 5 | Ambiguity and new technology | EA: the MCP-based spec-driven workflow with Figma and Jira. Nobody had done it; how did you scope and validate it? |
+| 6 | Failure or mistake | Your own. Choose one with a real lesson and a changed habit. |
+
+<Check id="w1-star-1">Story 1 written with a number</Check>
+<Check id="w1-star-2">Story 2 written with a number</Check>
+<Check id="w1-star-3">Story 3 written with a number</Check>
+<Check id="w1-star-4">Story 4 written with a number</Check>
+<Check id="w1-star-5">Story 5 written with a number</Check>
+<Check id="w1-star-6">Story 6 written with a number</Check>
+
+### Metrics worksheet (do not invent numbers)
+
+Numbers must come from a real source. Places to look: New Relic and CloudWatch dashboards, Lighthouse reports and CI history, Jenkins or GitLab pipeline history, Jira velocity and incident tickets, git history, and your old performance reviews.
+
+| Metric | Where to find it | Value |
+|---|---|---|
+| Page speed before and after (LCP, Lighthouse score) | Lighthouse reports, New Relic | |
+| Release or deploy time before and after automation | Jenkins / GitLab history | |
+| Number of apps or teams using the shared component library | Monorepo, package consumers | |
+| Incident count or time to resolve for a key incident | Jira, CloudWatch | |
+| Team size you led or mentored | Org chart, Jira | |
+| Test coverage change | Jest / Sonar reports | |
+| Launch-day or monthly traffic of the product | Analytics | |
+
+## Days 3 and 4: Project deep-dive sheets
+
+Make one page per project with these headings. Draw the architecture on paper from memory first, then check it.
+
+1. One-minute summary (problem, users, your role)
+2. Architecture sketch (boxes and arrows: client, edge, services, data, third parties)
+3. What I personally owned, versus what the team owned
+4. Three decisions: what, alternatives, why this one, what it cost
+5. Failure modes and how we detected them
+6. Performance, security, and scaling notes
+7. What I would change today
+
+### EA FanCare Help Center and passwordless authentication
+
+Likely probes. Prepare an answer to each from your own experience.
+
+- Why micro-frontends instead of one Next.js app? What did you pay for it (shared dependencies, routing, duplicate bundles, versioning)?
+- How do the micro-frontends share design, auth state and navigation without tight coupling?
+- Walk through the passwordless sign-in flow end to end. Where do tokens live, how long do they last, how do you stop replay and brute force?
+- Why serverless for these APIs? Cold starts, timeouts, idempotency, retries, observability: which did you hit?
+- How does search and article discovery work, and what happens when search is down?
+- How did you test it? What broke in production and how did you find out?
+- What does your MCP-based spec-driven workflow actually automate, how do you review what the AI produced, and what went wrong at first?
+
+<Callout title="Confirm before you say it in an interview">
+The platform notes in your architecture guide mention Java / Spring Boot BFFs on EKS, OpenSearch, Redis, Contentful, Akamai and ArgoCD. Be precise about which of these you built, which you integrated with, and which you only observed. Interviewers drill into exactly this boundary.
+</Callout>
+
+### Advance Auto Parts: JSP to React and Next.js
+
+- Why migrate, and why Next.js? What alternatives did the PoC compare?
+- Big-bang or incremental? How did you route traffic between old and new, and how did you roll back?
+- How did you protect SEO and checkout conversion during the migration?
+- How did A/B-tested pricing work technically (assignment, persistence, measuring the outcome)?
+- What did OneTrust change in your frontend (consent before scripts load)?
+- What did Terraform-managed New Relic alerts catch?
+
+### hayneedle.com re-platform and GAP checkout micro-frontend
+
+- How did Storybook plus Atomic Design change the team's delivery? What was your adoption plan?
+- Why was checkout a micro-frontend? Who owned it, how was it deployed, how did it share cart state?
+- How did Lighthouse benchmarking fit in CI? What budget did you enforce?
+- How did analytics through Google Tag Manager affect performance, and how did you contain it?
+
+## Day 5: JavaScript and TypeScript fundamentals
+
+Explain each out loud in 60 seconds. Short model answers are given so you can check yourself.
+
+<Check id="w1-js-1">Event loop and ordering</Check>
+
+Synchronous code runs on the call stack. When it empties, the engine drains the **microtask queue** (promise callbacks, `queueMicrotask`) completely, then takes one **macrotask** (`setTimeout`, I/O, UI events), then drains microtasks again. So a resolved promise callback always runs before a `setTimeout(fn, 0)` callback.
+
+<Check id="w1-js-2">Closures, scope, hoisting, the temporal dead zone</Check>
+
+A closure is a function plus the variables of the scope it was created in. `var` is function-scoped and hoisted with the value `undefined`. `let` and `const` are block-scoped and hoisted but unusable until their declaration runs (the temporal dead zone).
+
+<Check id="w1-js-3">`this` binding</Check>
+
+Decided at call time: `new` first, then explicit `call` / `apply` / `bind`, then method call (the object before the dot), else default (undefined in strict mode). Arrow functions have no own `this` and capture the enclosing one.
+
+<Check id="w1-js-4">Prototypes and classes</Check>
+
+Objects delegate property lookups along the prototype chain. `class` is syntax over constructor functions and prototypes.
+
+<Check id="w1-js-5">Promises and async error handling</Check>
+
+`Promise.all` rejects on the first rejection. `allSettled` waits for all and reports each outcome. `race` settles with the first to settle. `any` resolves with the first fulfilment. In `async` functions use `try/catch` around `await`; an unhandled rejection is a bug in production.
+
+<Check id="w1-ts-1">`unknown` versus `any`, narrowing, type guards</Check>
+
+`any` switches the checker off. `unknown` forces you to narrow (`typeof`, `instanceof`, `in`, a user-defined guard `x is T`) before use.
+
+<Check id="w1-ts-2">Generics and constraints</Check>
+
+`function pick<T, K extends keyof T>(obj: T, key: K): T[K]` ties the key to the object. Know when a generic is needed (relating types) versus when a union is enough.
+
+<Check id="w1-ts-3">Utility types and discriminated unions</Check>
+
+`Partial`, `Required`, `Pick`, `Omit`, `Record`, `ReturnType`, `Awaited`. A union with a literal `kind` field lets the compiler narrow exhaustively; add a `never` check to catch missing cases.
+
+<Check id="w1-ts-4">`interface` versus `type`, `satisfies`, `as const`</Check>
+
+Interfaces can merge and are good for object shapes that others extend; type aliases cover unions, tuples and mapped types. `satisfies` validates a value against a type without widening it. `as const` makes literals readonly and narrow.
+
+Coding drills to do today (deck: JS Coding and Polyfills): debounce, throttle, deep clone, `Promise.all`, `bind`, curry, flatten, an event emitter, an LRU cache.
+
+## Day 6: React and Next.js fundamentals
+
+<Check id="w1-r-1">Render phase versus commit phase, reconciliation, keys</Check>
+
+React calls your components to compute a tree (render, must be pure), diffs it against the previous tree, then applies the minimal DOM changes (commit) and runs effects. Elements of the same type at the same position keep their state; changing `key` resets it. Index keys on reorderable lists cause wrong state reuse.
+
+<Check id="w1-r-2">Rules of hooks and why they exist</Check>
+
+Hooks are stored by call order, so they must run in the same order every render: no conditions or loops. Custom hooks share logic, not state.
+
+<Check id="w1-r-3">`useEffect`: dependencies, cleanup, stale closures</Check>
+
+An effect synchronises with something outside React. Every reactive value it reads belongs in the dependency array. Return a cleanup. A stale closure means the effect captured an old value because it was missing from the array. You often do not need an effect at all: derive values during render, handle events in handlers.
+
+<Check id="w1-r-4">State, batching, and when memoisation helps</Check>
+
+State updates are batched and applied on the next render; use the functional form when the next value depends on the previous one. `useMemo`, `useCallback` and `memo` help only when a measured render is expensive or a referentially stable prop matters. Profile first. The React Compiler can automate much of this in newer setups.
+
+<Check id="w1-r-5">Concurrent features and newer APIs</Check>
+
+`useTransition` and `useDeferredValue` keep urgent updates (typing) responsive while slow ones render in the background. `Suspense` declares loading boundaries. React 19 adds Actions (`useActionState`, `useOptimistic`, `useFormStatus`), the `use` API, and ref as a regular prop. Check the current React docs for the version your target company uses.
+
+<Check id="w1-r-6">Server Components versus Client Components</Check>
+
+Server Components render on the server, ship no component JavaScript, and can read data directly, but cannot use state, effects or browser APIs. A `"use client"` file marks the boundary where interactivity starts; props crossing it must be serialisable.
+
+<Check id="w1-n-1">Next.js rendering modes and caching</Check>
+
+Know static rendering, dynamic rendering, streaming, and incremental regeneration, and what makes a route dynamic (cookies, headers, uncached fetches). Caching defaults have changed across Next.js 14, 15 and 16, so read the current caching docs before the interview and state which version you are describing.
+
+<Check id="w1-n-2">Micro-frontend trade-offs (your headline topic)</Check>
+
+Options: build-time composition of packages, runtime composition with Module Federation, iframes, web components, edge or server-side composition. Benefits: independent deploys and team ownership. Costs: duplicated or version-skewed dependencies, inconsistent UX, cross-app state and routing, harder testing, larger total payload. A shared design system and strict contracts are what make it work.
+
+<Check id="w1-n-3">Web performance and security basics</Check>
+
+Core Web Vitals: LCP (loading), INP (interaction latency, replaced FID in 2024), CLS (layout shift). Levers: image sizing and priority, code splitting, caching, fewer third-party scripts. Security: XSS (escape output, CSP), CSRF (SameSite cookies, tokens), CORS, `HttpOnly` and `Secure` cookies, short-lived tokens.
+
+Practice in the **[Interview decks](../decks/)**: React and Frontend, React Versions and Internals, Next.js Deep Dive, JavaScript and TypeScript, JS Coding and Polyfills, Performance and Security.
+
+## Day 7: Mock and apply
+
+<Check id="w1-mock-1">Recorded the 60-second pitch and watched it back</Check>
+<Check id="w1-mock-2">Recorded two STAR stories and one deep-dive (5 minutes each at most)</Check>
+<Check id="w1-mock-3">Wrote down three things to fix (filler words, no numbers, unclear ownership)</Check>
+<Check id="w1-mock-4">Updated the resume with any real numbers found this week</Check>
+
+### Application tracker
+
+Start applying now: hiring cycles take weeks, so calls arrive while you prepare. Starter list of product companies to research (verify current openings, these are not claims about hiring): Microsoft, Amazon, Atlassian, Adobe, Intuit, Salesforce, ServiceNow, Walmart Global Tech, Electronic Arts, Uber, Flipkart, Swiggy, Razorpay, PhonePe, Freshworks, Postman, Chargebee.
+
+| Company | Role | Link | Applied | Referral | Status |
+|---|---|---|---|---|---|
+| | | | | | |
+
+<Check id="w1-apply-1">Asked 3 contacts for referrals</Check>
+<Check id="w1-apply-2">Applied to 5 companies</Check>
+
+## Week 1 learning log
+
+Write what you learned and what surprised you. This becomes the reference you reuse later.
+
+- **Learned:**
+- **Gaps found (carry into week 2):**
+- **Questions I could not answer:**
+- **Best answer I gave in the mock:**
+
+[Next: Week 2, System Design and AWS](../week-2/)

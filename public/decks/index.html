@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Interview Prep — Lakshmikanth Pithani</title>
+<style>
+  :root{ /* dark default */
+    --bg:#0e1320; --panel:#161d2c; --panel2:#1d2638; --ink:#e8edf6; --muted:#94a0b4;
+    --border:rgba(255,255,255,.09); --accent:#ef7a2a; --accent2:#1aa9a0; --pur:#8b6fc4;
+    --shadow:0 4px 16px rgba(0,0,0,.4);
+    --code-bg:#0b1018;
+  }
+  body.light{
+    --bg:#f4f5f7; --panel:#fff; --panel2:#f0f2f5; --ink:#1f2430; --muted:#6b7280;
+    --border:rgba(0,0,0,.08); --shadow:0 3px 12px rgba(20,30,50,.12); --code-bg:#1b2230;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    background:var(--bg);color:var(--ink);min-height:100vh;transition:background .2s}
+  .wrap{max-width:1080px;margin:0 auto;padding:26px 22px 80px}
+
+  header.top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+  header.top h1{font-size:23px;font-weight:900;letter-spacing:-.4px}
+  header.top h1 small{display:block;font-size:12.5px;font-weight:600;color:var(--muted);margin-top:3px;letter-spacing:0}
+  .tbtn{border:none;background:var(--panel);color:var(--ink);box-shadow:var(--shadow);
+    border-radius:11px;width:42px;height:42px;font-size:18px;cursor:pointer}
+  .tbtn:hover{background:var(--panel2)}
+  .note{font-size:12.5px;color:var(--muted);margin:14px 0 22px;line-height:1.5}
+
+  /* tiles */
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:16px}
+  .tile{background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:18px 18px 16px;
+    cursor:pointer;box-shadow:var(--shadow);transition:transform .1s,box-shadow .15s;position:relative;overflow:hidden}
+  .tile:hover{transform:translateY(-3px)}
+  .tile .ic{font-size:26px}
+  .tile h3{font-size:16px;margin:10px 0 4px}
+  .tile p{font-size:12px;color:var(--muted);line-height:1.4;min-height:32px}
+  .tile .cnt{margin-top:11px;font-size:11px;font-weight:800;letter-spacing:.06em;text-transform:uppercase;color:var(--accent)}
+  .tile .bar{position:absolute;left:0;top:0;height:4px;width:100%;background:var(--accent)}
+
+  /* quiz */
+  #quiz{display:none}
+  .qhead{display:flex;align-items:center;gap:14px;margin-bottom:18px;flex-wrap:wrap}
+  .back{border:none;background:var(--panel);color:var(--ink);box-shadow:var(--shadow);border-radius:10px;
+    padding:9px 14px;font-size:13px;font-weight:700;cursor:pointer}
+  .back:hover{background:var(--panel2)}
+  .qhead h2{font-size:19px;font-weight:800}
+  .prog{margin-left:auto;font-size:12.5px;color:var(--muted);font-weight:700}
+  .dots{display:flex;gap:5px;margin-bottom:18px;flex-wrap:wrap}
+  .dot{width:9px;height:9px;border-radius:50%;background:var(--border);cursor:pointer}
+  .dot.cur{background:var(--accent);transform:scale(1.25)}
+  .dot.seen{background:var(--accent2)}
+
+  .card{background:var(--panel);border:1px solid var(--border);border-radius:16px;box-shadow:var(--shadow);
+    padding:24px;min-height:230px}
+  .badge{display:inline-block;font-size:10.5px;font-weight:800;letter-spacing:.07em;text-transform:uppercase;
+    padding:4px 10px;border-radius:20px;margin-bottom:14px}
+  .b-concept{background:rgba(239,122,42,.16);color:var(--accent)}
+  .b-coding{background:rgba(26,169,160,.16);color:var(--accent2)}
+  .b-system{background:rgba(139,111,196,.18);color:var(--pur)}
+  .b-behavioral{background:rgba(230,179,46,.16);color:#e6b32e}
+  .b-dsa{background:rgba(91,140,255,.18);color:#5b8cff}
+  .b-pattern{background:rgba(217,90,138,.18);color:#d95a8a}
+  .qtext{font-size:18px;font-weight:700;line-height:1.45}
+
+  .showbtn{margin-top:20px;border:none;background:var(--accent);color:#fff;border-radius:11px;
+    padding:12px 20px;font-size:14px;font-weight:800;cursor:pointer}
+  .showbtn:hover{filter:brightness(1.07)}
+
+  .answer{display:none;margin-top:22px;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+  .answer h4{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);margin:18px 0 7px}
+  .answer h4:first-child{margin-top:0}
+  .answer .body{font-size:14.5px;line-height:1.6}
+  .answer .body ul{margin:6px 0 6px 20px}
+  .answer .body li{margin:3px 0}
+  .answer .body code{background:var(--panel2);padding:1px 6px;border-radius:5px;font-size:13px}
+  .approach{background:var(--panel2);border-left:4px solid var(--accent2);border-radius:8px;padding:13px 15px;font-size:14px;line-height:1.55}
+  pre{background:var(--code-bg);color:#e6edf3;border-radius:10px;padding:15px 16px;overflow-x:auto;margin-top:8px;
+    font-size:12.8px;line-height:1.55;font-family:"SF Mono",Menlo,Consolas,monospace}
+  pre .k{color:#ff9d6b}.pre .s{color:#9fe0a0}
+  .answer .diagram{margin-top:14px;background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:14px;overflow-x:auto}
+  .answer .diagram svg{max-width:100%;height:auto;display:block;margin:0 auto}
+  .answer .diagram .cap{font-size:11px;color:var(--muted);text-align:center;margin-top:8px}
+
+  .nav{display:flex;gap:12px;margin-top:22px;align-items:center}
+  .nav button{border:none;border-radius:11px;padding:12px 20px;font-size:14px;font-weight:800;cursor:pointer;
+    background:var(--panel);color:var(--ink);box-shadow:var(--shadow)}
+  .nav button:hover:not(:disabled){background:var(--panel2)}
+  .nav button:disabled{opacity:.4;cursor:not-allowed}
+  .nav .sp{flex:1}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <h1>Interview Prep<small>Lead Full Stack Engineer · React · Node.js · AWS Serverless · Agentic AI — tuned to 2026 expectations</small></h1>
+    <button class="tbtn" id="theme" title="Toggle light / dark">🌙</button>
+  </header>
+
+  <div id="home">
+    <p class="note">Pick a topic. Each card opens a question deck — read the question, think through your answer out loud, then hit <b>Show Answer</b> for how to approach it plus a model answer (or code). Use <b>Next / Back</b> to move through. Answers are framed around your EA Help Center work (micro-frontends, BFF, serverless, MCP/agentic SDD).</p>
+    <div class="grid" id="tiles"></div>
+  </div>
+
+  <div id="quiz">
+    <div class="qhead">
+      <button class="back" id="backHome">← Topics</button>
+      <h2 id="qcat"></h2>
+      <span class="prog" id="prog"></span>
+    </div>
+    <div class="dots" id="dots"></div>
+    <div class="card">
+      <span class="badge" id="qbadge"></span>
+      <div class="qtext" id="qtext"></div>
+      <button class="showbtn" id="showBtn">Show Answer ▾</button>
+      <div class="answer" id="answer"></div>
+    </div>
+    <div class="nav">
+      <button id="prev">← Back</button>
+      <div class="sp"></div>
+      <button id="next">Next →</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============ DATA ============ */
+const TOPICS = [
+{ id:"react", icon:"⚛️", name:"React & Frontend", desc:"Micro-frontends, Next.js App Router, RSC, performance, Web Vitals", qs:[
+  {type:"concept", q:"What are micro-frontends, and when would you choose them over a single SPA?",
+   approach:"Define crisply, justify with org + scaling reasons, then volunteer the costs — seniors are judged on trade-off awareness, not enthusiasm.",
+   answer:"Micro-frontends split a UI into independently built, deployed and owned modules composed at runtime by a host/<b>shell</b>. I'd choose them when multiple teams need to ship independently and surfaces scale differently — exactly the EA Help Center case, where articles, search, customer-care and games are separate MFEs served from S3 and composed by a Next.js shell. The win is team autonomy + independent deploy/scale. The cost is composition complexity, shared-dependency version drift, and UX consistency — which I mitigate with a Turborepo monorepo, a shared TypeScript component library, and design tokens. For a small single team, a modular monolith SPA is usually the better call."},
+  {type:"concept", q:"React Server Components vs Client Components, and how the Next.js App Router changes data fetching (2026).",
+   approach:"Show you understand the rendering boundary and why it matters for performance/SEO — a very common 2026 question.",
+   answer:"Server Components render on the server and ship zero JS to the client, so they're ideal for data-heavy, non-interactive UI (article content, layout) — less bundle, better LCP, secrets stay server-side. Client Components (<code>'use client'</code>) are for interactivity/state/effects. The App Router lets you fetch data directly in async server components, colocate loading/error UI, and stream with Suspense, so the help-center shell can stream the page frame instantly and hydrate interactive islands (search box, chat) progressively. The skill is drawing the server/client boundary correctly to minimise client JS."},
+  {type:"concept", q:"How do you keep UX consistent across independently deployed micro-frontends?",
+   approach:"This is the practical pain point of MFEs — answer with concrete mechanisms, not 'we have guidelines'.",
+   answer:"Three layers: (1) a shared component library + design tokens published as versioned packages so every MFE renders the same buttons, typography and spacing; (2) the monorepo (Turborepo) so shared code is one source of truth and changes are caught at build; (3) contracts at the BFF so each MFE consumes a consistent data shape. I also enforce a peer-dependency strategy for React/runtime libs to avoid duplicate or mismatched versions in the composed page."},
+  {type:"coding", q:"Implement a useDebouncedValue hook (e.g. for the type-ahead search box).",
+   approach:"Narrate the why (avoid hammering the search API on every keystroke), then write a clean, cleanup-safe hook.",
+   answer:"Debouncing delays the value update until the user pauses, cutting search calls dramatically. Note the cleanup that cancels the pending timer on each change/unmount.",
+   code:`function useDebouncedValue(value, delay = 300) {
+  const [debounced, setDebounced] = useState(value);
+  useEffect(() => {
+    const id = setTimeout(() => setDebounced(value), delay);
+    return () => clearTimeout(id);   // cancel on change / unmount
+  }, [value, delay]);
+  return debounced;
+}
+
+// usage
+const q = useDebouncedValue(input, 300);
+useEffect(() => { if (q) searchApi(q); }, [q]);`},
+  {type:"concept", q:"Explain reconciliation, the virtual DOM, keys and React Fiber.",
+   approach:"Keep it mechanism-level and tie keys to a real bug you've seen.",
+   answer:"React builds a virtual DOM tree, diffs the new tree against the previous one (reconciliation), and commits the minimal real-DOM changes. <b>Fiber</b> is the engine that makes this work interruptible/prioritised so high-priority updates (typing) aren't blocked by low-priority ones. <b>Keys</b> let React match list items across renders; using array index as key causes state to attach to the wrong row when the list reorders — a classic source of 'wrong item highlighted' bugs. Use stable IDs."},
+  {type:"concept", q:"How do you improve Core Web Vitals (LCP, INP, CLS) on a content-heavy site?",
+   approach:"2026 interviewers treat performance as a product metric. Give specific levers mapped to each metric.",
+   answer:"<b>LCP:</b> SSR/SSG the article shell, preload the hero/font, serve images via CDN with proper sizing, cache at the edge (Akamai TTL 24h). <b>INP:</b> keep the main thread free — offload analytics/3rd-party scripts to Web Workers, code-split, avoid long tasks, defer non-critical JS. <b>CLS:</b> reserve space for images/ads, avoid layout-shifting late content. I measure with real-user Web Vitals + Lighthouse in CI so regressions are caught before release."},
+  {type:"coding", q:"Stop unnecessary re-renders in a list with expensive rows.",
+   approach:"Show you know memo / useMemo / useCallback and, importantly, when NOT to use them.",
+   answer:"Memoise the row with <code>React.memo</code>, memoise derived data with <code>useMemo</code>, and keep callback identity stable with <code>useCallback</code> so memoised children don't re-render. Caveat: don't sprinkle these everywhere — they add cost; profile first and apply where a row is genuinely expensive.",
+   code:`const Row = React.memo(function Row({ item, onPick }) {
+  return <li onClick={() => onPick(item.id)}>{item.label}</li>;
+});
+
+function List({ items }) {
+  const sorted = useMemo(() => [...items].sort(byLabel), [items]);
+  const onPick = useCallback(id => select(id), []);
+  return <ul>{sorted.map(i => <Row key={i.id} item={i} onPick={onPick} />)}</ul>;
+}`},
+  {type:"concept", q:"When do you reach for Redux vs Context vs a server-state library (React Query)?",
+   approach:"Distinguish server state from client state — the modern answer.",
+   answer:"Most 'state' is really <b>server state</b> (data you fetch) — that belongs in React Query/SWR for caching, dedupe, revalidation, not Redux. <b>Context</b> is for low-frequency global client state (theme, auth, locale). <b>Redux</b> (or Zustand) only for complex, high-frequency, cross-cutting client state with lots of interactions. Over-using Redux for server data is the anti-pattern I most often refactor away."}
+]},
+
+{ id:"jsts", icon:"🟨", name:"JavaScript & TypeScript", desc:"Event loop, closures, async, TS strict mode in monorepos", qs:[
+  {type:"concept", q:"Explain the event loop — microtasks vs macrotasks.",
+   approach:"Walk the order of execution; finish with a one-line predict-the-output to prove it.",
+   answer:"JS is single-threaded with an event loop. Synchronous code runs first; then the loop drains the <b>microtask</b> queue (Promise callbacks, queueMicrotask) completely, then takes one <b>macrotask</b> (setTimeout, I/O), then drains microtasks again. So a resolved Promise's <code>.then</code> runs before a <code>setTimeout(0)</code>. This matters for ordering, starvation (a flood of microtasks blocks rendering), and why awaits resume on the microtask queue."},
+  {type:"coding", q:"Predict and explain the output (closures + var/let in a loop).",
+   approach:"State the answer, then explain via closure-over-binding.",
+   answer:"With <code>var</code> all callbacks close over the same binding (prints 3,3,3). With <code>let</code> each iteration gets a new binding (prints 0,1,2). It's the canonical closure question.",
+   code:`for (var i = 0; i < 3; i++) setTimeout(() => console.log(i));
+// 3 3 3
+
+for (let i = 0; i < 3; i++) setTimeout(() => console.log(i));
+// 0 1 2`},
+  {type:"concept", q:"Why enforce TypeScript strict mode in a monorepo? (2026)",
+   approach:"Name what strict actually catches and why it scales across teams — a current hot topic.",
+   answer:"Strict mode turns on <code>strictNullChecks</code>, <code>noImplicitAny</code>, strict function types, etc. In a monorepo with many teams sharing packages, it catches null/undefined bugs and silent <code>any</code> leakage at the boundary between MFEs and shared libs — before runtime. It makes shared component contracts self-documenting and refactors safe across the whole repo. The cost is upfront typing discipline; the payoff is fewer production type errors and confident cross-package changes."},
+  {type:"coding", q:"Implement debounce and throttle.",
+   approach:"Define the difference in one line, then show both.",
+   answer:"<b>Debounce</b> waits for a pause (last call wins) — good for search input. <b>Throttle</b> guarantees at most one call per interval — good for scroll/resize.",
+   code:`function debounce(fn, wait) {
+  let t;
+  return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), wait); };
+}
+function throttle(fn, interval) {
+  let last = 0;
+  return (...a) => {
+    const now = Date.now();
+    if (now - last >= interval) { last = now; fn(...a); }
+  };
+}`},
+  {type:"concept", q:"Promise.all vs allSettled vs race — and error handling.",
+   approach:"Map each to a real use case.",
+   answer:"<code>all</code> rejects fast if any promise fails — use when you need every result (parallel BFF calls that are all required). <code>allSettled</code> never rejects, returns status per promise — use for best-effort fan-out (load widgets independently; one failing shouldn't kill the page). <code>race</code> settles on the first — use for timeouts. Always wrap awaited calls in try/catch and decide per call whether a failure should degrade gracefully or fail the request."},
+  {type:"coding", q:"Deep clone an object safely.",
+   approach:"Mention structuredClone first (modern), then the caveat.",
+   answer:"Use the built-in <code>structuredClone</code> in modern runtimes — handles nested objects, arrays, Maps, Dates. JSON.parse(JSON.stringify(x)) is a quick fallback but drops functions, undefined, Dates become strings, and it breaks on circular refs.",
+   code:`const copy = structuredClone(original);
+// fallback (lossy): JSON.parse(JSON.stringify(original))`}
+]},
+
+{ id:"node", icon:"🟩", name:"Node.js & APIs", desc:"BFF, auth, REST/GraphQL, caching, resilience", qs:[
+  {type:"concept", q:"What is a Backend-for-Frontend (BFF) and why did your project use one?",
+   approach:"This is central to your architecture — own it. Define, justify, give the trade-off.",
+   answer:"A BFF is an API layer dedicated to a specific frontend that aggregates and shapes data from downstream services into exactly what the UI needs. In the Help Center we run one BFF per experience (articles, search, customer-care, games…) on Spring Boot/EKS. Benefits: the frontend makes one call instead of five, payloads are tailored (no over/under-fetching), and it's the security boundary — third-party creds and auth live there, never in the browser. Trade-off: more services to operate and possible logic duplication across BFFs, which we manage with shared libraries."},
+  {type:"concept", q:"How do you secure an API — auth/authz, tokens, sessions?",
+   approach:"Cover authN vs authZ, token choices, and where validation happens.",
+   answer:"Authentication via OAuth2/OIDC (in our case EA's EADP) issuing short-lived JWT access tokens + refresh tokens; the BFF validates the token signature and scopes on every request. Authorization is enforced server-side (never trust the client) by role/scope checks. Keep tokens out of localStorage when possible (httpOnly cookies reduce XSS exposure), use HTTPS/private SSL between services, rotate secrets, and rate-limit. The browser never holds downstream credentials — the BFF does."},
+  {type:"concept", q:"Node is single-threaded — how does it handle concurrency, and when do you use worker threads or clustering?",
+   approach:"Separate I/O-bound from CPU-bound — that's the crux.",
+   answer:"Node uses a single-threaded event loop with a libuv thread pool for async I/O, so it scales beautifully for I/O-bound work (APIs, DB calls) by never blocking. For CPU-bound work (image processing, crypto, heavy parsing) you'd block the loop — there you use <b>worker threads</b> to offload, or <b>cluster</b>/multiple processes (or just multiple containers behind a load balancer) to use all cores. In our serverless pieces, Lambda sidesteps this by scaling out horizontally."},
+  {type:"coding", q:"Write Express error-handling + a simple rate-limit middleware.",
+   approach:"Show centralized error handling (4-arg signature) and a basic limiter.",
+   answer:"Express recognises error middleware by its four arguments. A simple in-memory limiter works per-instance; for distributed use Redis with a sliding window.",
+   code:`// central error handler (must be last, 4 args)
+app.use((err, req, res, next) => {
+  console.error(err);
+  res.status(err.status || 500).json({ error: err.message || 'Internal error' });
+});
+
+// naive rate limiter
+const hits = new Map();
+function rateLimit(max, windowMs) {
+  return (req, res, next) => {
+    const k = req.ip, now = Date.now();
+    const arr = (hits.get(k) || []).filter(t => now - t < windowMs);
+    arr.push(now); hits.set(k, arr);
+    if (arr.length > max) return res.status(429).json({ error: 'Too many requests' });
+    next();
+  };
+}`},
+  {type:"concept", q:"REST vs GraphQL — how do you decide? And how do you version APIs?",
+   approach:"Give the decision criteria, not a dogmatic preference.",
+   answer:"GraphQL shines when clients need flexible, nested data and you want to avoid over/under-fetching across many UIs — but it adds caching complexity and N+1 risks. REST is simpler, cache-friendly at the edge, and great for well-defined resources — which is why our article/CDN-cached endpoints are REST. Versioning: prefer additive, backward-compatible changes; when you must break, version via URL (/v2) or header, and run old + new in parallel with a deprecation window."},
+  {type:"concept", q:"How do you make an API resilient — idempotency, retries, circuit breakers?",
+   approach:"These three together signal production maturity.",
+   answer:"<b>Idempotency:</b> use idempotency keys so a retried POST (e.g. create-case) doesn't double-submit. <b>Retries:</b> only on transient failures, with exponential backoff + jitter, and a cap. <b>Circuit breakers:</b> when a downstream (say Orion-Nebula) is failing, trip the breaker to fail fast and serve cached/last-known-good instead of piling on load — plus bulkheads to isolate one slow dependency from exhausting all threads."}
+]},
+
+{ id:"aws", icon:"☁️", name:"AWS & Serverless", desc:"Lambda vs EKS, caching, API Gateway, observability", qs:[
+  {type:"concept", q:"Lambda vs EKS — when do you choose which? (your project uses both)",
+   approach:"Map workload characteristics to compute. This is your real decision, so be specific.",
+   answer:"EKS for long-lived, latency-sensitive request/response services that need predictable warm performance and fine control (our BFF and Orion domain services). Lambda for spiky, event-driven, async work that benefits from scale-to-zero and pay-per-use — our Functions: article-webhook, feedback, community-posts, and the cdn-cache-invalidate trigger. The principle: steady high-throughput → containers/EKS; bursty/event-glue → serverless."},
+  {type:"concept", q:"How do you deal with Lambda cold starts?",
+   approach:"Show you know the causes and the real mitigations.",
+   answer:"Cold starts come from spinning up a new execution environment. Mitigations: keep the package small and dependencies lean, use a fast runtime, allocate enough memory (also gives more CPU), and use <b>provisioned concurrency</b> for latency-critical paths. Architecturally, keep cold-start-sensitive work off the synchronous user path — which is partly why article reads are cached at the edge/Redis rather than hitting a function every time."},
+  {type:"concept", q:"Design the caching strategy for the Help Center, including invalidation.",
+   approach:"Show multiple layers AND solve invalidation — that's where seniors separate.",
+   answer:"Multi-layer: <b>Akamai edge</b> caches static assets + article pages (TTL ~24h), <b>Redis</b> caches hot domain reads for the BFF/services, and the service layer is the origin. The hard part is invalidation: instead of short TTLs, publishing in Contentful fires the <code>cdn-cache-invalidate</code> Lambda to purge exactly the affected edge paths — push-based invalidation, so content is fresh without sacrificing cache hit-rate. 'There are two hard things in CS: cache invalidation and naming' — and I lead with the invalidation story."},
+  {type:"concept", q:"How do you secure and throttle an API Gateway + Lambda setup?",
+   approach:"Cover auth, throttling, and least privilege.",
+   answer:"Use a Lambda authorizer or Cognito/JWT authorizer at the gateway to reject unauthenticated calls before they hit business logic, set per-key/usage-plan throttling and burst limits, validate request schemas at the gateway, and scope each Lambda's IAM role to least privilege. Put a WAF in front for common attacks and keep everything in private subnets where possible."},
+  {type:"concept", q:"How do you do observability in a serverless + microservices system?",
+   approach:"Tie to the three pillars and your actual stack.",
+   answer:"Three pillars: logs, metrics, traces. We emit structured logs and use <b>OpenTelemetry</b> for distributed tracing across Akamai → BFF → domain services → Lambda, visualised in <b>Kibana</b> dashboards (plus CloudWatch/X-Ray for AWS-native pieces). For a latency spike I follow the trace to the slow hop, check Redis hit-rate and downstream health, and correlate with deploy markers. Good correlation IDs across services are what make a 2am incident debuggable."},
+  {type:"concept", q:"Why serve micro-frontends from S3, and how do you handle uploads safely?",
+   approach:"Static hosting + signed URLs + staging bucket.",
+   answer:"S3 as an origin (behind the CDN) is cheap, infinitely scalable, and perfect for immutable, versioned static bundles — each MFE deploys its own artifacts. For user uploads (case attachments) we use a temp/staging bucket with pre-signed URLs so the browser uploads directly to S3 without proxying through our servers, then a function validates/scans and attaches the file to the Salesforce case — the staging step is the safety boundary."}
+]},
+
+{ id:"sysdesign", icon:"🏗️", name:"System Design", desc:"Help Center walkthrough, SPOF, scale, resilience, SEO", qs:[
+  {type:"system", q:"Design a self-service Help Center for millions of users. (Walk through your architecture.)",
+   approach:"Lead with requirements + the layered diagram, then the golden path. This is your home turf — be the person who's actually built it.",
+   answer:"Requirements: fast cached article reads at global scale, search, case/chat escalation, SEO, editorial publishing. Architecture in layers: <b>Edge</b> (Akamai: TLS, cache, routing) → <b>ALB</b> → <b>Frontend</b> (Next.js shell + S3-served micro-frontends, SSR/SSG for SEO) → <b>BFF</b> (per-experience aggregation, security boundary) → <b>Domain</b> (Orion-Core: search/CRM/identity/community; Orion-Nebula: content) on EKS, plus Lambda for async/webhooks → <b>Data</b> (Redis cache, OpenSearch, S3) and SaaS (EADP auth, Contentful CMS, Salesforce). Golden path: Fan → Akamai → ALB → shell/MFE → BFF → domain → data, with reads cached at edge + Redis. Then I'd discuss scale, the SPOF, and failure handling."},
+  {type:"system", q:"Your content service is a single point of failure. How do you fix it?",
+   approach:"Volunteer this proactively — it's flagged in your own diagram. Senior gold.",
+   answer:"Orion-Nebula owns content every page needs, so its failure degrades the whole site. Fixes, in order: (1) heavy caching so most reads never reach it — edge + Redis with last-known-good; (2) horizontal scaling + read replicas / read-optimised store so live editing can't starve reads; (3) BFF <b>circuit breakers</b> + graceful degradation — serve cached/stale content with a banner rather than erroring; (4) <b>bulkheads</b> so a slow Nebula doesn't exhaust BFF threads for unrelated calls; (5) multi-AZ + health checks. The theme: remove it from the critical synchronous path."},
+  {type:"system", q:"How do you handle seasonal traffic spikes (e.g. a major game launch)?",
+   approach:"Tie to the real 'two ALBs split to scale independently' decision.",
+   answer:"Pre-scale and isolate. The shell and micro-frontends sit behind separate ALBs precisely so a spike on one surface (a launching game's articles) scales independently without affecting others. Add auto-scaling on EKS with sensible headroom, raise edge cache TTLs/coverage for the hot content so most traffic is absorbed at Akamai, pre-warm provisioned concurrency on critical Lambdas, and load-test against projected peaks. Graceful degradation ensures non-critical widgets shed first."},
+  {type:"system", q:"How do you guarantee SEO for help articles in a JS-heavy app?",
+   approach:"SSR/SSG + crawlability specifics.",
+   answer:"Render article pages server-side (SSR) or pre-render (SSG/ISR) so crawlers get full HTML, not an empty shell. Add proper semantic markup, canonical tags, structured data (FAQ/Article schema), localized hreflang, fast LCP (cached at edge), clean URLs, and an up-to-date sitemap. The Next.js shell handles SSR; Akamai caches the rendered output for speed."},
+  {type:"system", q:"How do you design for resilience and graceful degradation?",
+   approach:"Name the patterns and what the user sees in each failure.",
+   answer:"Circuit breakers (fail fast when a dependency is down), retries with backoff + jitter for transient errors, bulkheads to isolate dependencies, timeouts everywhere (no unbounded waits), and fallbacks: serve cached/last-known-good content, hide non-essential widgets, and keep the core read path alive even if chat or recommendations are down. The goal is partial availability over total failure — the fan can still read help even if case-creation is temporarily degraded."}
+]},
+
+{ id:"ai", icon:"🤖", name:"Agentic AI & MCP", desc:"MCP, multi-agent orchestration, RAG, your SDD workflow, failure modes", qs:[
+  {type:"concept", q:"What is MCP (Model Context Protocol) and why does it matter in 2026?",
+   approach:"Define it, note its standardization, and connect to what you've built.",
+   answer:"MCP is an open standard for how LLM agents talk to tools and data sources — a uniform protocol so any model can call any MCP-exposed tool/server without bespoke glue. It was donated to the Linux Foundation's Agentic AI Foundation in late 2025, making it the de-facto standard for agent-to-tool communication (alongside A2A for agent-to-agent). It matters because it turns one-off integrations into reusable, composable capabilities — which is exactly what powers our SDD workflow, where Figma and Jira are exposed to the agent via MCP."},
+  {type:"behavioral", q:"Walk me through the agentic workflow you built. What broke, and what did you learn?",
+   approach:"Tell it as a war story — 2026 interviewers explicitly reward 'what went wrong'.",
+   answer:"We built a prompt-based spec-driven-development (SDD) workflow: the agent pulls a Jira ticket and the linked Figma design through MCP, generates the implementation and test cases, and prepares the change. What broke early: the agent over-trusted ambiguous tickets and produced confident-but-wrong code, and tool calls occasionally failed silently. Fixes: tighter spec prompts with acceptance criteria, a human-in-the-loop review gate, deterministic guardrails (lint/test must pass before a PR), and observability on every tool call. Lesson: the LLM is maybe 20% of the system — the orchestration, guardrails, and eval loop are what make it production-worthy."},
+  {type:"concept", q:"Explain multi-agent orchestration patterns and when they break down.",
+   approach:"Name the patterns and the failure modes — depth here signals staff level.",
+   answer:"Common patterns: <b>orchestrator–subagent</b> (a planner delegates to specialised workers), <b>pipeline</b> (sequential stages), and <b>debate/verification</b> (one agent critiques another). They break down with error compounding (each hop adds mistakes), cost/latency blow-ups, context loss between agents, and infinite loops. Mitigations: keep agent graphs shallow, add a verifier/critic step, cap iterations, pass structured state not free text, and prefer a single well-tooled agent unless the task genuinely needs decomposition."},
+  {type:"concept", q:"What does a production agent actually consist of beyond the LLM?",
+   approach:"The 'LLM is 20%' framing is exactly what 2026 panels look for.",
+   answer:"The model is ~20%. The rest: an <b>orchestrator/control loop</b> (observe → think → act → observe), <b>tool integrations</b> (via MCP), <b>memory/context management</b>, <b>guardrails</b> (input/output validation, allow-lists, spend caps), <b>evals</b> (offline + online to catch regressions), <b>observability</b> (trace every step and tool call), retries/fallbacks, and human-in-the-loop gates for high-stakes actions. Shipping that scaffolding is the real engineering."},
+  {type:"concept", q:"How would you design a RAG pipeline, and where does it fail?",
+   approach:"Cover the pipeline end-to-end plus the real-world failure points.",
+   answer:"Ingest → chunk (semantically, with overlap) → embed → store in a vector DB → at query time embed the query, retrieve top-k, rerank, and stuff the best context into the prompt with citations. Failure points: bad chunking (too big/small), stale indexes, low recall retrieval, and the model ignoring or hallucinating beyond the context. Mitigations: hybrid search (keyword + vector), reranking, freshness pipelines, grounding/citation checks, and evals on retrieval quality separately from generation."},
+  {type:"concept", q:"How do you control cost, guardrails and hallucination in an agentic system?",
+   approach:"Show production discipline — money/safety are 2026 themes.",
+   answer:"Cost: prompt caching, smaller models for routing/cheap steps, cap tool-call loops, and budget alerts. Guardrails: validate and constrain outputs (schemas, allow-lists), sandbox tool actions, require human approval for irreversible actions. Hallucination: ground answers in retrieved sources with citations, add a verification step, and run continuous evals so quality regressions are caught before users see them. Observability ties it together — every decision and tool call is traced."}
+]},
+
+{ id:"devops", icon:"🔧", name:"DevOps & CI/CD", desc:"GitOps/ArgoCD, pipelines, Docker, Terraform, deploys", qs:[
+  {type:"concept", q:"Explain GitOps and why ArgoCD — what's the benefit over scripted deploys?",
+   approach:"Declarative vs imperative is the key insight.",
+   answer:"In GitOps, Git is the single source of truth for desired cluster state; ArgoCD continuously reconciles the live cluster to match what's in Git. Benefits over scripted/imperative deploys: every change is reviewed and audited (it's a PR), rollback is a git revert, drift is detected and corrected automatically, and environments are reproducible. It turns 'who ran what script where' into a declarative, versioned history."},
+  {type:"concept", q:"Walk through your CI pipeline and the quality gates.",
+   approach:"Map the stages to tools you actually use.",
+   answer:"On merge in GitLab: <b>CI</b> runs lint, unit/validation tests, and static analysis; a <b>SonarQube</b> quality gate can block the build on coverage/code-smell/security thresholds; passing builds publish a scanned container image to <b>Harbor</b>. Then <b>CD</b> via ArgoCD deploys to EKS, runs e2e tests, and rolls out via canary before full traffic. Quality is enforced by the pipeline, not by reviewer goodwill."},
+  {type:"concept", q:"Canary vs blue-green vs rolling — when do you use each?",
+   approach:"One line each + the rollback story.",
+   answer:"<b>Rolling</b>: replace instances gradually — simple, default. <b>Blue-green</b>: stand up a full parallel environment and switch traffic — instant rollback, costs double infra briefly. <b>Canary</b>: route a small % of real traffic to the new version, watch metrics/errors, then ramp — best for catching issues with real load at low blast radius, which is what we use. Rollback in all cases is fast because images are versioned and deploys are declarative."},
+  {type:"concept", q:"Docker best practices for production images.",
+   approach:"Show you care about size, security, and build speed.",
+   answer:"Multi-stage builds (build deps stay out of the final image), small base images (distroless/alpine where viable), pin versions, run as non-root, leverage layer caching by ordering Dockerfile from least- to most-frequently changed, .dockerignore to keep context small, and scan images (Harbor/Trivy) before publishing. Smaller images = faster cold starts and smaller attack surface."},
+  {type:"concept", q:"Why Terraform / IaC, and how do you keep environments consistent?",
+   approach:"Parity-through-config is your real practice.",
+   answer:"Terraform declares infra as versioned code, so environments are reproducible and changes are reviewed/planned before apply. We keep DEV→QA→UAT→Pre-prod→Prod consistent by driving per-env differences (buckets, endpoints, OpenSearch) through config/variables rather than divergent code, using remote state with locking, and modules for reuse. That parity is what makes 'works in QA' actually mean something in Prod."}
+]},
+
+{ id:"leadership", icon:"🧭", name:"Leadership & Behavioral", desc:"Trade-offs, mentoring, migrations, incidents, career narrative", qs:[
+  {type:"behavioral", q:"Tell me about a hard technical trade-off you made.",
+   approach:"Use STAR (Situation, Task, Action, Result) and name the trade-off explicitly.",
+   answer:"Frame: 'We split the shell and micro-frontends behind two ALBs to scale independently for seasonal traffic, accepting extra cost/complexity. The trade-off was operational overhead vs. blast-radius isolation during game launches. I chose isolation because a launch spike on one surface shouldn't degrade the whole Help Center — and we documented that it could be merged later if traffic patterns flattened.' Show you weighed both sides and made a reversible, documented call."},
+  {type:"behavioral", q:"How do you mentor and level up engineers?",
+   approach:"Concrete mechanisms beat platitudes.",
+   answer:"Code reviews framed as teaching (explain the why, not just the what), design reviews before code, pairing on hard problems, and giving ownership of a component with support rather than doing it for them. I document patterns and decisions (ADRs, shared libraries) so the team scales without me as a bottleneck. I measure success by whether engineers make good independent calls — and by recognition like the Best Employee awards tied to lifting team output."},
+  {type:"behavioral", q:"Describe leading a major migration (e.g. JSP → React/Next.js).",
+   approach:"Emphasise incremental, low-risk strategy and stakeholder buy-in.",
+   answer:"At Advance Auto Parts I led the JSP→React/Next.js migration. I started with a proof-of-concept to de-risk and win stakeholder buy-in, then migrated incrementally (page/section at a time) behind the existing site so we never did a big-bang cutover, validated with A/B testing, and automated CI/CD + Terraform monitoring to keep releases safe. Result: better performance and usability, fewer deploy errors, and a stack decision the org adopted strategically."},
+  {type:"behavioral", q:"Tell me about a production incident you handled.",
+   approach:"Show calm, structured RCA and prevention.",
+   answer:"Structure: detect (alert/Kibana dashboard) → mitigate (roll back or fail over to cached/last-known-good to restore users fast) → diagnose (follow the OpenTelemetry trace to the failing hop, check downstream health and recent deploys) → fix → write a blameless post-mortem with action items so it can't recur. Emphasise restoring the user first, root-causing second, and turning the learning into a guardrail (a test, an alert, a circuit breaker)."},
+  {type:"behavioral", q:"How do you make and document architecture decisions?",
+   approach:"ADRs + trade-off thinking + reversibility.",
+   answer:"I write lightweight ADRs capturing context, the options considered, the decision, and the trade-offs/consequences. I distinguish one-way-door (hard to reverse — decide carefully, get input) from two-way-door (reversible — decide fast, learn). I bias toward reversible choices, make the trade-offs explicit (the way our diagram even labels the SPOF and the mergeable ALBs), and revisit decisions as data arrives. That transparency is what builds team trust at the staff/architect level."},
+  {type:"behavioral", q:"Why are you ready for a staff/architect role now?",
+   approach:"Tie 10+ years of web depth + full-stack breadth + current AI work into a forward-looking narrative.",
+   answer:"Frame: '10+ years building cloud-native web platforms — across frontend, backend, and cloud — on top of an earlier foundation in industrial automation means I see the whole system, not just one layer. I've led migrations, owned architecture for enterprise platforms like EA's Help Center, and mentored teams — and I'm now driving modern agentic-AI delivery (MCP-based SDD). I'm ready to operate at the level of setting technical direction across teams, making the cross-cutting trade-offs, and multiplying other engineers — which is what I already do informally and want to own formally.'"}
+]},
+
+/* ===== ADDED: deeper brush-up groups (React/Next versions, DSA, patterns, system & FE design, JS coding, perf/security, rounds map) ===== */
+
+{ id:"react-versions", icon:"🧬", name:"React Versions & Internals", desc:"16→19 evolution, Fiber, concurrent, RSC, reconciliation", qs:[
+  {type:"concept", q:"Walk me through the major React versions — 15 to 19 — and what each changed.",
+   approach:"Show the arc: architecture (16) → upgrade plumbing (17) → concurrency (18) → compiler/server (19). Interviewers want the 'why' behind each, not just dates.",
+   answer:"<b>15:</b> stack reconciler (synchronous, blocking). <b>16:</b> the <b>Fiber</b> rewrite — incremental/interruptible rendering, plus Error Boundaries, Fragments, Portals, and the new Context API. <b>16.8:</b> Hooks. <b>17:</b> no new features — an 'upgrade-enabler' release (gradual upgrades, new JSX transform, event delegation moved to the root). <b>18:</b> <b>concurrent rendering</b> — automatic batching, <code>useTransition</code>, <code>useDeferredValue</code>, <code>useId</code>, and streaming SSR with Suspense. <b>19:</b> the <b>React Compiler</b> (auto-memoization), stable <b>Server Components</b>, <b>Actions</b> + <code>useActionState</code>/<code>useFormStatus</code>, and the <code>use()</code> hook.",
+   diagram:`<svg viewBox="0 0 640 120" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+   <line x1="30" y1="60" x2="610" y2="60" stroke="var(--accent)" stroke-width="2"/>
+   <g fill="var(--ink)" text-anchor="middle">
+   <circle cx="70" cy="60" r="5" fill="var(--accent)"/><text x="70" y="40">16</text><text x="70" y="86" font-size="9" fill="var(--muted)">Fiber</text>
+   <circle cx="200" cy="60" r="5" fill="var(--accent)"/><text x="200" y="40">16.8</text><text x="200" y="86" font-size="9" fill="var(--muted)">Hooks</text>
+   <circle cx="330" cy="60" r="5" fill="var(--accent)"/><text x="330" y="40">17</text><text x="330" y="86" font-size="9" fill="var(--muted)">upgrade enabler</text>
+   <circle cx="460" cy="60" r="5" fill="var(--accent)"/><text x="460" y="40">18</text><text x="460" y="86" font-size="9" fill="var(--muted)">concurrent</text>
+   <circle cx="580" cy="60" r="5" fill="var(--accent)"/><text x="580" y="40">19</text><text x="580" y="86" font-size="9" fill="var(--muted)">compiler + RSC</text>
+   </g></svg><div class="cap">React evolution: architecture → hooks → upgrade plumbing → concurrency → compiler/server</div>`},
+  {type:"concept", q:"What is React Fiber and what problem did it solve (React 16)?",
+   approach:"Contrast with the old stack reconciler; tie to interruptibility and priority.",
+   answer:"Before 16, reconciliation was a synchronous recursive walk — once it started it couldn't stop, so big updates blocked the main thread and janked the UI. <b>Fiber</b> re-implemented reconciliation as a linked list of units of work that can be <b>paused, resumed, reprioritised, and aborted</b>. That interruptibility is what later enabled concurrent features (time-slicing, transitions) in React 18. Rendering became two phases: a cancellable <b>render/reconcile</b> phase and a synchronous <b>commit</b> phase.",
+   diagram:`<svg viewBox="0 0 640 90" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+   <g text-anchor="middle">
+   <rect x="20" y="30" width="110" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="75" y="51" fill="var(--ink)">Trigger</text>
+   <rect x="170" y="30" width="130" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="235" y="47" fill="var(--ink)">Render /</text><text x="235" y="59" fill="var(--ink)" font-size="9">Reconcile (diff)</text>
+   <rect x="340" y="30" width="130" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="405" y="51" fill="var(--ink)">Commit</text>
+   <rect x="510" y="30" width="110" height="34" rx="6" fill="var(--accent)"/><text x="565" y="51" fill="#fff">DOM</text>
+   </g>
+   <g stroke="var(--accent)" stroke-width="2" marker-end="url(#a1)"><line x1="130" y1="47" x2="165" y2="47"/><line x1="300" y1="47" x2="335" y2="47"/><line x1="470" y1="47" x2="505" y2="47"/></g>
+   <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--accent)"/></marker></defs>
+   <text x="235" y="20" text-anchor="middle" font-size="9" fill="var(--muted)">interruptible</text>
+   <text x="405" y="20" text-anchor="middle" font-size="9" fill="var(--muted)">synchronous</text></svg>
+   <div class="cap">Render phase is cancellable; commit phase is synchronous</div>`},
+  {type:"concept", q:"What are React 18's concurrent features, and when do you use them?",
+   approach:"Name each feature and give a concrete use case — don't just list.",
+   answer:"<b>Automatic batching</b>: multiple state updates (even in promises/timeouts) batch into one render. <b>useTransition</b>: mark non-urgent updates so typing stays responsive while a heavy list re-renders in the background. <b>useDeferredValue</b>: defer re-rendering of expensive UI derived from a fast-changing value (e.g. a filtered list as you type). <b>Streaming SSR + Suspense</b>: stream HTML and hydrate selectively so a slow data section doesn't block the whole page. Use transitions/deferred values for the type-ahead search in our Help Center so the input never stutters."},
+  {type:"concept", q:"What's new in React 19 and why does it matter?",
+   approach:"Hit compiler, Actions, use(), and stable RSC — the 2026 headline items.",
+   answer:"<b>React Compiler</b>: auto-memoizes components, reducing the need for manual <code>useMemo</code>/<code>useCallback</code>/<code>memo</code>. <b>Actions</b>: built-in pending/error/optimistic handling for async mutations via <code>useActionState</code> and <code>useFormStatus</code>. <b>use()</b>: read promises/context conditionally in render. <b>Server Components</b> stabilised: render on the server, ship zero JS, keep data/secrets server-side. Net effect: less boilerplate, smaller bundles, simpler data mutations."},
+  {type:"concept", q:"Explain reconciliation and the diffing heuristics — why are keys important?",
+   approach:"Give the two heuristics and a real bug caused by bad keys.",
+   answer:"React's diff is O(n) thanks to two heuristics: (1) different element <b>types</b> produce different trees (it tears down and rebuilds), and (2) <b>keys</b> identify which children are stable across renders. With stable keys React moves/reuses nodes; with index-as-key, reordering or inserting makes React reuse the wrong node — causing state to attach to the wrong row (e.g. a checkbox 'jumps' to another item). Always use stable, unique IDs as keys."},
+  {type:"concept", q:"Why can't hooks be called conditionally? (Rules of Hooks)",
+   approach:"Explain the call-order invariant, not just 'the docs say so'.",
+   answer:"React tracks hook state by <b>call order</b>, not by name — the first <code>useState</code> in a component maps to slot 0, the next to slot 1, etc. If you call a hook inside a condition or loop, the order can change between renders and the slots misalign, so state 'leaks' between hooks. That's why hooks must run at the top level, unconditionally, in the same order every render."}
+]},
+
+{ id:"nextjs", icon:"▲", name:"Next.js Deep Dive", desc:"App vs Pages Router, RSC, Server Actions, 4 cache layers, rendering modes", qs:[
+  {type:"concept", q:"Trace the Next.js version evolution and the big shifts.",
+   approach:"Anchor to the architectural inflection points, ending at the App Router era.",
+   answer:"<b>9:</b> API routes + getServerSideProps/getStaticProps. <b>9.5:</b> Incremental Static Regeneration (ISR). <b>12:</b> Middleware + the Rust-based SWC compiler. <b>13:</b> the <b>App Router</b> with React Server Components, nested layouts, and streaming (beta). <b>14:</b> App Router stable, Server Actions stable, Turbopack maturing. <b>15:</b> React 19 support, caching defaults made more explicit/opt-in. The through-line: from page-based SSR/SSG toward a server-component, streaming, server-action model."},
+  {type:"concept", q:"Pages Router vs App Router — what actually changed?",
+   approach:"Compare on rendering model, data fetching, layouts, and status.",
+   answer:"<b>Pages Router</b>: file = page, data via <code>getServerSideProps</code>/<code>getStaticProps</code>, client components by default, shared UI via <code>_app</code>. <b>App Router</b>: <b>Server Components by default</b>, data fetched directly in async components, <b>nested layouts</b>, <b>streaming</b> with Suspense, <b>Server Actions</b> for mutations, and a new caching model. Pages Router is in maintenance mode; App Router is the default for new work. Migrate one route at a time, starting with non-critical pages.",
+   diagram:`<svg viewBox="0 0 640 140" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10.5">
+   <g text-anchor="middle">
+   <rect x="20" y="20" width="280" height="100" rx="8" fill="var(--panel)" stroke="var(--border)"/>
+   <text x="160" y="40" fill="var(--ink)" font-weight="bold">Pages Router</text>
+   <text x="160" y="62" fill="var(--muted)">getServerSideProps / getStaticProps</text>
+   <text x="160" y="80" fill="var(--muted)">client components by default</text>
+   <text x="160" y="98" fill="var(--muted)">_app / _document · maintenance mode</text>
+   <rect x="340" y="20" width="280" height="100" rx="8" fill="var(--panel)" stroke="var(--accent)"/>
+   <text x="480" y="40" fill="var(--ink)" font-weight="bold">App Router</text>
+   <text x="480" y="62" fill="var(--muted)">Server Components by default</text>
+   <text x="480" y="80" fill="var(--muted)">nested layouts · streaming · Suspense</text>
+   <text x="480" y="98" fill="var(--muted)">Server Actions · new cache model</text>
+   </g></svg>`},
+  {type:"concept", q:"Explain the Next.js rendering modes and when to use each.",
+   approach:"Map each mode to a real surface in a product like the Help Center.",
+   answer:"<b>SSG</b> (static at build): marketing/help pages that rarely change — fastest, cacheable. <b>ISR</b> (static + revalidate): article pages that update occasionally — static speed with periodic/freshness updates via <code>revalidate</code>. <b>SSR</b> (per-request): personalised or always-fresh pages. <b>CSR</b> (client): highly interactive dashboards behind auth. <b>RSC</b> (server components): default in App Router — render data-heavy UI on the server, ship zero JS, hydrate only interactive islands.",
+   diagram:`<svg viewBox="0 0 640 150" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10.5">
+   <g text-anchor="middle">
+   <rect x="20" y="20" width="140" height="46" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="90" y="40" fill="var(--ink)" font-weight="bold">SSG</text><text x="90" y="56" fill="var(--muted)" font-size="9">build-time · fastest</text>
+   <rect x="180" y="20" width="140" height="46" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="250" y="40" fill="var(--ink)" font-weight="bold">ISR</text><text x="250" y="56" fill="var(--muted)" font-size="9">static + revalidate</text>
+   <rect x="340" y="20" width="140" height="46" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="410" y="40" fill="var(--ink)" font-weight="bold">SSR</text><text x="410" y="56" fill="var(--muted)" font-size="9">per request · fresh</text>
+   <rect x="500" y="20" width="120" height="46" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="560" y="40" fill="var(--ink)" font-weight="bold">CSR</text><text x="560" y="56" fill="var(--muted)" font-size="9">client · interactive</text>
+   <rect x="180" y="90" width="300" height="44" rx="6" fill="var(--accent)"/><text x="330" y="110" fill="#fff" font-weight="bold">RSC (App Router default)</text><text x="330" y="126" fill="#fff" font-size="9">server render · zero client JS · hydrate islands</text>
+   </g></svg>`},
+  {type:"concept", q:"Server Components vs Client Components — where's the boundary?",
+   approach:"Define each, then the rule for drawing the line.",
+   answer:"<b>Server Components</b> (default) run only on the server: they can fetch data directly, access secrets, and ship <b>no JS</b> to the client — great for content/layout. <b>Client Components</b> (<code>'use client'</code>) run in the browser for interactivity, state, effects, and browser APIs. Rule: keep components as server by default and push the <code>'use client'</code> boundary as far down the tree as possible, so only the genuinely interactive leaves (search box, chat widget) ship JS. You can pass server-fetched data down as props to client islands."},
+  {type:"concept", q:"What are the four Next.js cache layers? (a 2026 favourite)",
+   approach:"Name all four, where they live, and how to invalidate.",
+   answer:"<b>1) Request Memoization</b> — dedupes identical fetches within a single render pass. <b>2) Data Cache</b> — persistent server cache for fetch results across requests/deploys, controlled by <code>revalidate</code> / <code>cache</code> options. <b>3) Full Route Cache</b> — cached rendered HTML/RSC payload for static routes. <b>4) Router Cache</b> — client-side cache of visited route segments for instant back/forward. Invalidate with <code>revalidateTag</code> / <code>revalidatePath</code> (on-demand) or time-based <code>revalidate</code>.",
+   diagram:`<svg viewBox="0 0 560 180" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10.5">
+   <g text-anchor="middle">
+   <rect x="60" y="14" width="440" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="280" y="35" fill="var(--ink)">1 · Request Memoization (per render)</text>
+   <rect x="60" y="54" width="440" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="280" y="75" fill="var(--ink)">2 · Data Cache (persistent, revalidate)</text>
+   <rect x="60" y="94" width="440" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="280" y="115" fill="var(--ink)">3 · Full Route Cache (rendered HTML/RSC)</text>
+   <rect x="60" y="134" width="440" height="34" rx="6" fill="var(--accent)"/><text x="280" y="155" fill="#fff">4 · Router Cache (client, instant nav)</text>
+   </g></svg><div class="cap">Server-side (1–3) → client-side (4). Invalidate via revalidateTag / revalidatePath</div>`},
+  {type:"concept", q:"Why use a Server Action instead of an API route + fetch?",
+   approach:"Frame around DX, security, and progressive enhancement.",
+   answer:"A <b>Server Action</b> lets you run server code directly from a component/form without hand-writing an API route + client fetch + loading/error wiring. Benefits: less boilerplate, type-safe end-to-end, runs on the server (secrets stay there), works with progressive enhancement (forms submit without JS), and integrates with React 19 Actions for pending/optimistic state. You'd still use a dedicated API route for public/3rd-party endpoints, webhooks, or non-React consumers."}
+]},
+
+{ id:"dsa", icon:"🧮", name:"Data Structures & Algorithms", desc:"Big-O, hashmaps, two pointers, sliding window, trees, graphs", qs:[
+  {type:"dsa", q:"Walk me through Big-O and the complexities you actually use.",
+   approach:"Give the ranking and one example each; mention space too.",
+   answer:"From best to worst: <b>O(1)</b> (hashmap lookup), <b>O(log n)</b> (binary search), <b>O(n)</b> (single loop), <b>O(n log n)</b> (good sorts), <b>O(n²)</b> (nested loops), <b>O(2ⁿ)</b> (naive recursion). Always state <b>time and space</b>, and call out the trade — e.g. a hashmap turns an O(n²) scan into O(n) time at O(n) space. Interviewers care that you can justify the complexity, not just recite it.",
+   diagram:`<svg viewBox="0 0 520 170" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10">
+   <line x1="40" y1="140" x2="500" y2="140" stroke="var(--border)"/><line x1="40" y1="20" x2="40" y2="140" stroke="var(--border)"/>
+   <text x="20" y="30" fill="var(--muted)">ops</text><text x="470" y="158" fill="var(--muted)">n</text>
+   <path d="M40,135 L500,130" stroke="#3fb27f" fill="none" stroke-width="2"/><text x="455" y="124" fill="#3fb27f">O(1)/log n</text>
+   <path d="M40,138 L500,70" stroke="var(--accent2)" fill="none" stroke-width="2"/><text x="455" y="66" fill="var(--accent2)">O(n)</text>
+   <path d="M40,138 Q300,120 500,40" stroke="var(--accent)" fill="none" stroke-width="2"/><text x="430" y="38" fill="var(--accent)">O(n log n)</text>
+   <path d="M40,138 Q160,135 230,20" stroke="#d95a8a" fill="none" stroke-width="2"/><text x="150" y="35" fill="#d95a8a">O(n²)</text>
+   </svg><div class="cap">Lower curves scale better — aim to move n² → n log n → n</div>`},
+  {type:"dsa", q:"Two Sum — return indices of two numbers adding to target.",
+   approach:"Brute force is O(n²); the hashmap insight makes it O(n). Say that out loud.",
+   answer:"Store each value's index as you go; for each number check if its complement is already in the map. One pass, O(n) time, O(n) space.",
+   code:`function twoSum(nums, target) {
+  const seen = new Map();           // value -> index
+  for (let i = 0; i < nums.length; i++) {
+    const need = target - nums[i];
+    if (seen.has(need)) return [seen.get(need), i];
+    seen.set(nums[i], i);
+  }
+  return [];
+}`},
+  {type:"dsa", q:"Longest substring without repeating characters (sliding window).",
+   approach:"Name the pattern (sliding window) before coding; track last-seen index.",
+   answer:"Expand the right edge; when you hit a repeat, jump the left edge past the previous occurrence. O(n) time. Sliding window is the go-to for 'longest/shortest contiguous' problems.",
+   code:`function lengthOfLongest(s) {
+  const last = new Map();
+  let left = 0, best = 0;
+  for (let right = 0; right < s.length; right++) {
+    const c = s[right];
+    if (last.has(c) && last.get(c) >= left) left = last.get(c) + 1;
+    last.set(c, right);
+    best = Math.max(best, right - left + 1);
+  }
+  return best;
+}`},
+  {type:"dsa", q:"Valid palindrome / reverse — demonstrate the two-pointer pattern.",
+   approach:"Two pointers from both ends; O(1) space. Mention it generalises to sorted-array problems.",
+   answer:"Move a pointer from each end toward the middle, comparing as you go. O(n) time, O(1) space. The same pattern solves pair-sum in a sorted array, container-with-most-water, etc.",
+   code:`function isPalindrome(s) {
+  s = s.toLowerCase().replace(/[^a-z0-9]/g, '');
+  let i = 0, j = s.length - 1;
+  while (i < j) {
+    if (s[i] !== s[j]) return false;
+    i++; j--;
+  }
+  return true;
+}`},
+  {type:"dsa", q:"Tree traversal — BFS vs DFS, and when to use each.",
+   approach:"Explain the data structure each uses (queue vs stack/recursion) and use cases.",
+   answer:"<b>BFS</b> (queue) explores level by level — best for shortest path / level-order. <b>DFS</b> (stack or recursion) goes deep first — best for path existence, tree depth, topological sort. Below is BFS level-order.",
+   code:`function bfs(root) {
+  if (!root) return [];
+  const out = [], q = [root];
+  while (q.length) {
+    const node = q.shift();
+    out.push(node.val);
+    if (node.left) q.push(node.left);
+    if (node.right) q.push(node.right);
+  }
+  return out;
+}`,
+   diagram:`<svg viewBox="0 0 360 150" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="11">
+   <g stroke="var(--border)"><line x1="180" y1="35" x2="110" y2="80"/><line x1="180" y1="35" x2="250" y2="80"/><line x1="110" y1="80" x2="70" y2="125"/><line x1="110" y1="80" x2="150" y2="125"/></g>
+   <g fill="var(--accent)"><circle cx="180" cy="30" r="16"/><circle cx="110" cy="80" r="16"/><circle cx="250" cy="80" r="16"/><circle cx="70" cy="125" r="16"/><circle cx="150" cy="125" r="16"/></g>
+   <g fill="#fff" text-anchor="middle" font-size="10"><text x="180" y="34">1</text><text x="110" y="84">2</text><text x="250" y="84">3</text><text x="70" y="129">4</text><text x="150" y="129">5</text></g>
+   <text x="320" y="34" fill="var(--muted)" font-size="9">BFS: 1,2,3,4,5</text></svg>`},
+  {type:"dsa", q:"Detect a cycle in a linked list (Floyd's tortoise & hare).",
+   approach:"Two pointers at different speeds; O(1) space is the elegant insight.",
+   answer:"A slow pointer (1 step) and fast pointer (2 steps); if they ever meet, there's a cycle. O(n) time, O(1) space — beats the hashset approach on memory.",
+   code:`function hasCycle(head) {
+  let slow = head, fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) return true;
+  }
+  return false;
+}`}
+]},
+
+{ id:"patterns", icon:"🧩", name:"Design Patterns", desc:"Module, Observer, Factory, Strategy + React patterns", qs:[
+  {type:"pattern", q:"Module & Singleton patterns in JavaScript.",
+   approach:"Show the closure-based module and when a singleton is justified (and its risks).",
+   answer:"The <b>Module</b> pattern uses a closure to expose a public API while keeping internals private. A <b>Singleton</b> ensures one shared instance (e.g. a config or a DB connection pool) — useful but can become a hidden global that hurts testability, so use sparingly.",
+   code:`// Module
+const Counter = (() => {
+  let count = 0;                 // private
+  return { inc: () => ++count, get: () => count };
+})();
+
+// Singleton
+class Config {
+  static #instance;
+  static get() { return (Config.#instance ??= new Config()); }
+}`},
+  {type:"pattern", q:"Observer / Pub-Sub — explain and implement.",
+   approach:"Define the decoupling benefit; note React/Redux and the DOM use it.",
+   answer:"<b>Observer</b> lets a subject notify many subscribers on change without knowing who they are — decoupling producers from consumers. It's everywhere: DOM events, Redux store subscriptions, RxJS, and React's own re-render-on-state-change.",
+   code:`class EventBus {
+  #subs = {};
+  on(evt, fn){ (this.#subs[evt] ??= []).push(fn); }
+  off(evt, fn){ this.#subs[evt] = (this.#subs[evt]||[]).filter(f=>f!==fn); }
+  emit(evt, data){ (this.#subs[evt]||[]).forEach(fn => fn(data)); }
+}`,
+   diagram:`<svg viewBox="0 0 420 130" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10.5" text-anchor="middle">
+   <rect x="20" y="50" width="110" height="36" rx="6" fill="var(--accent)"/><text x="75" y="73" fill="#fff">Subject</text>
+   <rect x="290" y="14" width="110" height="32" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="345" y="35" fill="var(--ink)">Observer A</text>
+   <rect x="290" y="52" width="110" height="32" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="345" y="73" fill="var(--ink)">Observer B</text>
+   <rect x="290" y="90" width="110" height="32" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="345" y="111" fill="var(--ink)">Observer C</text>
+   <g stroke="var(--accent2)" stroke-width="2" marker-end="url(#o1)"><line x1="130" y1="64" x2="285" y2="30"/><line x1="130" y1="68" x2="285" y2="68"/><line x1="130" y1="72" x2="285" y2="106"/></g>
+   <defs><marker id="o1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--accent2)"/></marker></defs>
+   <text x="200" y="120" fill="var(--muted)" font-size="9">notify() on change</text></svg>`},
+  {type:"pattern", q:"Factory and Strategy patterns — when do you reach for them?",
+   approach:"Factory = decouple creation; Strategy = swap behaviour. Give a real use.",
+   answer:"<b>Factory</b> centralises object creation so callers don't hard-code concrete classes (e.g. a <code>createNotifier('email'|'sms')</code>). <b>Strategy</b> encapsulates interchangeable algorithms behind a common interface (e.g. pluggable pricing or sorting strategies), letting you swap behaviour at runtime and avoid big if/else chains.",
+   code:`// Strategy
+const strategies = {
+  card: amt => amt * 1.0,
+  wallet: amt => amt * 0.98,   // 2% off
+};
+function checkout(amount, method) {
+  return (strategies[method] ?? strategies.card)(amount);
+}`},
+  {type:"pattern", q:"React patterns: HOC vs render props vs custom hooks.",
+   approach:"Show the evolution and why hooks won for logic reuse.",
+   answer:"All three share <b>logic</b> across components. <b>HOC</b> wraps a component (can cause wrapper nesting / prop collisions). <b>Render props</b> pass a function as children (flexible but can nest deeply). <b>Custom hooks</b> are the modern answer — extract stateful logic into a reusable function with no extra tree nesting. In our codebase, shared behaviour (debounced search, feature flags) lives in custom hooks.",
+   code:`// Custom hook — the modern logic-reuse pattern
+function useToggle(initial = false) {
+  const [on, setOn] = useState(initial);
+  const toggle = useCallback(() => setOn(o => !o), []);
+  return [on, toggle];
+}`},
+  {type:"pattern", q:"Compound components — what problem do they solve?",
+   approach:"Explain the flexible API and implicit state sharing via context.",
+   answer:"Compound components let related pieces share implicit state via context while giving the consumer a flexible, declarative API (e.g. <code>&lt;Tabs&gt;&lt;Tabs.List&gt;&lt;Tabs.Tab/&gt;&lt;/Tabs.List&gt;&lt;Tabs.Panel/&gt;&lt;/Tabs&gt;</code>). It avoids prop-drilling and rigid config props — ideal for design-system components like tabs, accordions, and menus.",
+   code:`const TabsCtx = createContext();
+function Tabs({ children, defaultIndex = 0 }) {
+  const [active, setActive] = useState(defaultIndex);
+  return <TabsCtx.Provider value={{active, setActive}}>{children}</TabsCtx.Provider>;
+}
+Tabs.Tab = function ({ index, children }) {
+  const { active, setActive } = useContext(TabsCtx);
+  return <button aria-selected={active===index} onClick={() => setActive(index)}>{children}</button>;
+};`}
+]},
+
+{ id:"sysdesign-tech", icon:"🏛️", name:"System Design Techniques", desc:"Framework, caching, scaling, CAP, sharding, queues, rate limiting", qs:[
+  {type:"system", q:"What's your framework for a system design interview?",
+   approach:"Have a repeatable structure so you never freeze. Drive it; don't wait to be led.",
+   answer:"Drive a clear sequence: <b>1) Requirements</b> (functional + non-functional: scale, latency, availability), <b>2) Estimation</b> (QPS, storage, bandwidth), <b>3) API design</b> (the contract), <b>4) Data model</b>, <b>5) High-level diagram</b>, <b>6) Scale & deep-dive</b> (caching, sharding, queues), <b>7) Bottlenecks & trade-offs</b>. Spend real time on requirements — designing the wrong thing fast is the most common failure.",
+   diagram:`<svg viewBox="0 0 660 70" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="9.5" text-anchor="middle">
+   <g>
+   <rect x="6" y="22" width="86" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="49" y="41" fill="var(--ink)">Requirements</text>
+   <rect x="104" y="22" width="86" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="147" y="41" fill="var(--ink)">Estimate</text>
+   <rect x="202" y="22" width="86" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="245" y="41" fill="var(--ink)">API</text>
+   <rect x="300" y="22" width="86" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="343" y="41" fill="var(--ink)">Data model</text>
+   <rect x="398" y="22" width="86" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="441" y="41" fill="var(--ink)">HLD</text>
+   <rect x="496" y="22" width="74" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="533" y="41" fill="var(--ink)">Scale</text>
+   <rect x="582" y="22" width="74" height="30" rx="5" fill="var(--accent)"/><text x="619" y="41" fill="#fff">Trade-offs</text>
+   </g></svg>`},
+  {type:"system", q:"Explain caching strategies, layers, and invalidation.",
+   approach:"Layers + the cache-aside vs write-through choice + the hard part (invalidation).",
+   answer:"Layers, fastest first: <b>browser → CDN → app/in-memory → distributed cache (Redis) → DB</b>. Strategies: <b>cache-aside</b> (app checks cache, loads DB on miss — most common), <b>write-through</b> (write cache+DB together — consistent, slower writes), <b>write-back</b> (fast, risk of loss). Invalidation is the hard part: prefer event-driven purges (like our publish→cache-invalidate Lambda) over guessing TTLs; use versioned keys to avoid stale reads.",
+   diagram:`<svg viewBox="0 0 560 130" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10" text-anchor="middle">
+   <g>
+   <rect x="20" y="50" width="90" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="65" y="71" fill="var(--ink)">Browser</text>
+   <rect x="130" y="50" width="90" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="175" y="71" fill="var(--ink)">CDN</text>
+   <rect x="240" y="50" width="90" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="285" y="71" fill="var(--ink)">App cache</text>
+   <rect x="350" y="50" width="90" height="34" rx="6" fill="var(--accent)"/><text x="395" y="71" fill="#fff">Redis</text>
+   <rect x="460" y="50" width="80" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="500" y="71" fill="var(--ink)">DB</text>
+   </g>
+   <g stroke="var(--accent)" stroke-width="2" marker-end="url(#c1)"><line x1="110" y1="67" x2="128" y2="67"/><line x1="220" y1="67" x2="238" y2="67"/><line x1="330" y1="67" x2="348" y2="67"/><line x1="440" y1="67" x2="458" y2="67"/></g>
+   <defs><marker id="c1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--accent)"/></marker></defs>
+   <text x="280" y="30" fill="var(--muted)" font-size="9">read path — each layer absorbs load so fewer requests hit the DB</text></svg>`},
+  {type:"system", q:"Horizontal vs vertical scaling, load balancing, and statelessness.",
+   approach:"Define both, then explain why stateless services are the enabler.",
+   answer:"<b>Vertical</b> = bigger machine (simple, but a ceiling + SPOF). <b>Horizontal</b> = more machines behind a <b>load balancer</b> (scales further, adds redundancy). Horizontal scaling requires <b>stateless</b> services — no in-memory session affinity — so any node can serve any request; push session/state to Redis or tokens. Add health checks + auto-scaling so capacity tracks demand (key for our seasonal game-launch spikes).",
+   diagram:`<svg viewBox="0 0 420 150" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="10.5" text-anchor="middle">
+   <rect x="160" y="14" width="100" height="32" rx="6" fill="var(--accent)"/><text x="210" y="35" fill="#fff">Load Balancer</text>
+   <g><rect x="30" y="100" width="90" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="75" y="121" fill="var(--ink)">Server 1</text>
+   <rect x="165" y="100" width="90" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="210" y="121" fill="var(--ink)">Server 2</text>
+   <rect x="300" y="100" width="90" height="34" rx="6" fill="var(--panel)" stroke="var(--border)"/><text x="345" y="121" fill="var(--ink)">Server 3</text></g>
+   <g stroke="var(--accent2)" stroke-width="2"><line x1="200" y1="46" x2="80" y2="98"/><line x1="210" y1="46" x2="210" y2="98"/><line x1="220" y1="46" x2="340" y2="98"/></g>
+   <text x="210" y="148" fill="var(--muted)" font-size="9">stateless nodes → any server handles any request</text></svg>`},
+  {type:"system", q:"Explain the CAP theorem and consistency models.",
+   approach:"State the trade-off plainly; give CP vs AP examples.",
+   answer:"Under a network <b>partition</b>, you can keep either <b>Consistency</b> (every read sees the latest write) or <b>Availability</b> (every request gets a response), not both. <b>CP</b> systems (e.g. traditional RDBMS, ZooKeeper) reject/stall to stay consistent; <b>AP</b> systems (e.g. Dynamo/Cassandra) stay up and reconcile later (eventual consistency). Choose per use case: payments lean CP; a help-article view count is fine AP."},
+  {type:"system", q:"How do you scale a database — replication, sharding, indexing?",
+   approach:"Order it: indexes → read replicas → sharding (last resort). Mention SQL vs NoSQL.",
+   answer:"First, <b>index</b> the hot query paths and optimise queries. Then add <b>read replicas</b> to scale reads (writes still go to primary). When a single primary can't hold the write volume/data, <b>shard</b> (partition by key) — powerful but adds cross-shard query/rebalancing complexity, so it's a last resort. Pick <b>SQL</b> for relational integrity/transactions, <b>NoSQL</b> for scale/flexible schema/denormalised access patterns."},
+  {type:"system", q:"When and why use a message queue (Kafka/SQS)?",
+   approach:"Decoupling, smoothing spikes, async — plus idempotency.",
+   answer:"Queues <b>decouple</b> producers from consumers, <b>smooth spikes</b> (buffer bursts so consumers process at their own rate), and enable <b>async</b> workflows (email, webhooks, our community-post processing). Design consumers to be <b>idempotent</b> (handle duplicate delivery), use dead-letter queues for poison messages, and watch consumer lag. Kafka for high-throughput streaming/replay; SQS for simple managed task queues."},
+  {type:"system", q:"How would you implement rate limiting?",
+   approach:"Name the algorithm (token bucket) and where it lives (distributed via Redis).",
+   answer:"<b>Token bucket</b>: each client has a bucket that refills at a fixed rate; each request consumes a token, and empty = reject (429). It allows short bursts while capping sustained rate. For multiple instances, store counters in <b>Redis</b> so the limit is global, not per-node. Alternatives: fixed/sliding window and leaky bucket. Apply at the gateway/BFF edge.",
+   code:`// token bucket (per key)
+function allow(bucket, rate, cap, now) {
+  bucket.tokens = Math.min(cap, bucket.tokens + (now - bucket.ts) * rate);
+  bucket.ts = now;
+  if (bucket.tokens < 1) return false;   // 429
+  bucket.tokens -= 1;
+  return true;
+}`}
+]},
+
+{ id:"fe-sysdesign", icon:"🖼️", name:"Frontend System Design", desc:"Typeahead, infinite feed, design system, cart state, lazy media", qs:[
+  {type:"system", q:"Design an autocomplete / typeahead component.",
+   approach:"Cover network, UX, and a11y — FE system design is judged on all three.",
+   answer:"Input → <b>debounce</b> (~300ms) → check a client <b>cache</b> → if miss, fetch with an <b>AbortController</b> to cancel stale requests → render a dropdown. Add: minimum query length, request <b>race</b> handling (ignore out-of-order responses), keyboard navigation + ARIA (<code>role=listbox</code>, <code>aria-activedescendant</code>), highlight matches, loading/empty/error states, and result caching/prefetch. Backend serves it from OpenSearch.",
+   diagram:`<svg viewBox="0 0 640 70" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="9.5" text-anchor="middle">
+   <g>
+   <rect x="6" y="22" width="80" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="46" y="41" fill="var(--ink)">Input</text>
+   <rect x="100" y="22" width="86" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="143" y="41" fill="var(--ink)">Debounce</text>
+   <rect x="200" y="22" width="80" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="240" y="41" fill="var(--ink)">Cache?</text>
+   <rect x="294" y="22" width="110" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="349" y="41" fill="var(--ink)">Fetch (abort old)</text>
+   <rect x="418" y="22" width="96" height="30" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="466" y="41" fill="var(--ink)">Order check</text>
+   <rect x="528" y="22" width="106" height="30" rx="5" fill="var(--accent)"/><text x="581" y="41" fill="#fff">Dropdown (a11y)</text>
+   </g>
+   <g stroke="var(--accent)" stroke-width="1.6" marker-end="url(#f1)"><line x1="86" y1="37" x2="98" y2="37"/><line x1="186" y1="37" x2="198" y2="37"/><line x1="280" y1="37" x2="292" y2="37"/><line x1="404" y1="37" x2="416" y2="37"/><line x1="514" y1="37" x2="526" y2="37"/></g>
+   <defs><marker id="f1" markerWidth="7" markerHeight="7" refX="5" refY="3" orient="auto"><path d="M0,0 L5,3 L0,6 Z" fill="var(--accent)"/></marker></defs></svg>`},
+  {type:"system", q:"Design an infinite-scrolling feed (e.g. news/articles).",
+   approach:"Pagination strategy + virtualization + observer + edge cases.",
+   answer:"Use <b>cursor-based pagination</b> (stable under inserts, unlike offset). Trigger the next page with an <b>IntersectionObserver</b> sentinel near the bottom. <b>Virtualize</b> the list (render only visible rows) so the DOM stays small for thousands of items. Handle loading skeletons, error/retry, scroll-position restoration on back-nav, deduping, and accessibility. Cache pages so back/forward is instant."},
+  {type:"system", q:"Design a reusable component library / design system.",
+   approach:"Talk architecture, theming, a11y, versioning, docs — this is your real strength.",
+   answer:"Atomic structure (tokens → primitives → components → patterns), theming via <b>design tokens</b> (CSS variables) for light/dark and brands, accessibility baked into every primitive, a typed API (TypeScript) with sensible defaults, tree-shakeable exports, <b>Storybook</b> for docs/visual tests, and <b>semantic versioning</b> published from a monorepo so consumers upgrade safely. This is exactly how I keep our micro-frontends consistent."},
+  {type:"system", q:"State management for a cart that persists, syncs, and works offline. (2026)",
+   approach:"Separate server state from client state — that distinction is the whole answer.",
+   answer:"Split concerns: <b>server state</b> (cart on the backend) via <b>TanStack Query</b> for caching, background sync, and <b>optimistic updates</b>; <b>client/UI state</b> via a light store (<b>Zustand/Jotai</b>). Persist locally (IndexedDB/localStorage) for <b>offline</b>, queue mutations while offline and replay on reconnect, and reconcile conflicts on sync (last-write-wins or merge). Avoid stuffing server data into Redux — that's the anti-pattern they're probing for."},
+  {type:"system", q:"How do you optimize images and media-heavy pages?",
+   approach:"Concrete levers tied to Core Web Vitals.",
+   answer:"Responsive images (<code>srcset</code>/<code>sizes</code>), modern formats (WebP/AVIF), <b>lazy-load</b> below-the-fold with <code>loading=\"lazy\"</code> / IntersectionObserver, set explicit width/height to prevent CLS, preload the LCP hero image, serve via a CDN with on-the-fly resizing, and use a blur-up placeholder. In Next.js, the <code>&lt;Image&gt;</code> component does most of this automatically."}
+]},
+
+{ id:"js-coding", icon:"⌨️", name:"JS Coding & Polyfills", desc:"Promise.all, currying, flatten, deep equal, event emitter, memoize", qs:[
+  {type:"coding", q:"Implement Promise.all.",
+   approach:"Resolve when all settle; reject on first failure; preserve order.",
+   answer:"Track a completion count and write each result to its index so order is preserved; reject immediately on the first rejection.",
+   code:`function promiseAll(promises) {
+  return new Promise((resolve, reject) => {
+    const out = []; let done = 0;
+    if (promises.length === 0) return resolve(out);
+    promises.forEach((p, i) => {
+      Promise.resolve(p).then(val => {
+        out[i] = val;
+        if (++done === promises.length) resolve(out);
+      }, reject);
+    });
+  });
+}`},
+  {type:"coding", q:"Implement currying — f(1)(2)(3) === f(1,2,3).",
+   approach:"Collect args until you have enough, then call.",
+   answer:"Return a function that accumulates arguments; once it has at least the original arity, invoke.",
+   code:`function curry(fn) {
+  return function curried(...args) {
+    if (args.length >= fn.length) return fn(...args);
+    return (...rest) => curried(...args, ...rest);
+  };
+}
+const add = curry((a, b, c) => a + b + c);
+add(1)(2)(3); // 6  ·  add(1, 2)(3); // 6`},
+  {type:"coding", q:"Flatten a deeply nested array.",
+   approach:"Recursion or reduce; mention Array.prototype.flat(Infinity) exists.",
+   answer:"Reduce over the array, recursing into nested arrays. (Built-in: <code>arr.flat(Infinity)</code>.)",
+   code:`function flatten(arr) {
+  return arr.reduce((acc, x) =>
+    acc.concat(Array.isArray(x) ? flatten(x) : x), []);
+}
+flatten([1, [2, [3, [4]]]]); // [1,2,3,4]`},
+  {type:"coding", q:"Implement deep equality.",
+   approach:"Handle primitives, arrays, objects recursively; note edge cases.",
+   answer:"Compare primitives directly; for objects/arrays compare keys recursively. (Production: use a battle-tested lib for Dates, Maps, circular refs.)",
+   code:`function deepEqual(a, b) {
+  if (a === b) return true;
+  if (typeof a !== 'object' || typeof b !== 'object' || !a || !b) return false;
+  const ka = Object.keys(a), kb = Object.keys(b);
+  if (ka.length !== kb.length) return false;
+  return ka.every(k => deepEqual(a[k], b[k]));
+}`},
+  {type:"coding", q:"Build an event emitter (on/off/emit).",
+   approach:"Same as the Observer pattern — show clean subscribe/unsubscribe.",
+   answer:"Keep a map of event → listeners; <code>on</code> subscribes, <code>off</code> removes, <code>emit</code> calls each.",
+   code:`class Emitter {
+  #m = new Map();
+  on(e, fn){ this.#m.set(e, [...(this.#m.get(e)||[]), fn]); return () => this.off(e, fn); }
+  off(e, fn){ this.#m.set(e, (this.#m.get(e)||[]).filter(f => f !== fn)); }
+  emit(e, ...a){ (this.#m.get(e)||[]).forEach(fn => fn(...a)); }
+}`},
+  {type:"coding", q:"Implement memoize.",
+   approach:"Cache by serialized args; mention cache-key pitfalls.",
+   answer:"Store results keyed by the stringified arguments. Caveat: JSON keys don't handle functions/cyclic args — use a Map with custom keys for complex cases.",
+   code:`function memoize(fn) {
+  const cache = new Map();
+  return (...args) => {
+    const key = JSON.stringify(args);
+    if (cache.has(key)) return cache.get(key);
+    const res = fn(...args);
+    cache.set(key, res);
+    return res;
+  };
+}`}
+]},
+
+{ id:"perf-security", icon:"🛡️", name:"Performance & Security", desc:"Core Web Vitals debugging, bundles, XSS/CSRF/CORS/CSP, a11y", qs:[
+  {type:"concept", q:"Your LCP is 4.2s. Walk me through your debugging and fix. (2026 scenario)",
+   approach:"Be systematic: measure → find the LCP element → attack its critical path. This exact question is now standard.",
+   answer:"First <b>measure</b> with Lighthouse/WebPageTest + field data (CrUX) and identify the <b>LCP element</b> (usually the hero image or a big text block). Then attack its critical path: is it render-blocked by JS/CSS? Is the image unoptimised/un-preloaded? Is it behind slow SSR/TTFB? Fixes: preload the LCP asset, serve WebP/AVIF via CDN, eliminate render-blocking resources, improve TTFB (edge cache/SSR), inline critical CSS, and defer non-critical JS. Re-measure to confirm — don't guess."},
+  {type:"concept", q:"How do you reduce JavaScript bundle size?",
+   approach:"List the levers in priority order; mention measuring first.",
+   answer:"Measure with a bundle analyzer first. Then: <b>code-split</b> by route and lazy-load heavy components, <b>tree-shake</b> (ES modules, avoid side-effectful imports), import only what you use (e.g. per-function lodash), drop heavy deps for lighter ones, defer/async third-party scripts, and use Server Components so non-interactive UI ships no JS at all."},
+  {type:"concept", q:"Explain XSS, CSRF, CORS, and CSP.",
+   approach:"Define each + the primary defense — don't conflate them.",
+   answer:"<b>XSS</b>: attacker injects script into your page — defend by escaping/sanitising output and a strict <b>CSP</b>. <b>CSRF</b>: a malicious site triggers authenticated requests using your cookies — defend with anti-CSRF tokens and <code>SameSite</code> cookies. <b>CORS</b>: browser policy controlling cross-origin requests — configure allowed origins on the server (it's a control, not an attack). <b>CSP</b>: a header restricting what scripts/resources can load — your last line of defense against XSS."},
+  {type:"concept", q:"JWT vs sessions — and how do you store tokens securely?",
+   approach:"Trade-off statefulness vs revocation; nail the storage answer.",
+   answer:"<b>Sessions</b> store state server-side (easy revocation, needs a store). <b>JWTs</b> are stateless and scale well but are hard to revoke before expiry — mitigate with short-lived access tokens + refresh tokens. Store tokens in <b>httpOnly, Secure, SameSite</b> cookies rather than localStorage to reduce XSS theft. Never put secrets or downstream credentials in the browser — that's the BFF's job."},
+  {type:"concept", q:"What accessibility (a11y) practices do you enforce as a senior?",
+   approach:"Show it's part of your definition of done, not an afterthought.",
+   answer:"Semantic HTML first (buttons are <code>&lt;button&gt;</code>), keyboard navigability and visible focus, correct ARIA only where semantics fall short, sufficient colour contrast, labels for inputs, alt text, and screen-reader testing. I bake a11y into the component library so every consumer inherits it, and add automated checks (axe) in CI. It's both the right thing and often a legal requirement."}
+]},
+
+{ id:"rounds", icon:"🗺️", name:"Interview Rounds Map", desc:"What each round tests — recruiter, DSA, FE coding, system, architecture, behavioral", qs:[
+  {type:"concept", q:"What does a typical senior/lead loop look like, round by round?",
+   approach:"Knowing the map lets you prepare per-round and read the room.",
+   answer:"A common loop: <b>1) Recruiter screen</b> (fit, comp, motivation) → <b>2) Tech screen</b> (DSA or a live coding task) → <b>3) Frontend/coding round</b> (build a component or debug) → <b>4) System design</b> (backend or frontend) → <b>5) Architecture / bar-raiser</b> (deep trade-offs, your past systems) → <b>6) Behavioral / hiring manager</b> (leadership, collaboration). Senior loops weight design + behavioral more than raw DSA.",
+   diagram:`<svg viewBox="0 0 660 64" xmlns="http://www.w3.org/2000/svg" font-family="sans-serif" font-size="9" text-anchor="middle">
+   <g>
+   <rect x="4" y="20" width="96" height="28" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="52" y="38" fill="var(--ink)">Recruiter</text>
+   <rect x="112" y="20" width="96" height="28" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="160" y="38" fill="var(--ink)">DSA / screen</text>
+   <rect x="220" y="20" width="96" height="28" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="268" y="38" fill="var(--ink)">FE coding</text>
+   <rect x="328" y="20" width="96" height="28" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="376" y="38" fill="var(--ink)">System design</text>
+   <rect x="436" y="20" width="104" height="28" rx="5" fill="var(--accent)"/><text x="488" y="38" fill="#fff">Architecture</text>
+   <rect x="552" y="20" width="104" height="28" rx="5" fill="var(--panel)" stroke="var(--border)"/><text x="604" y="38" fill="var(--ink)">Behavioral</text>
+   </g></svg>`},
+  {type:"concept", q:"Recruiter / hiring-manager screen — how do you handle it?",
+   approach:"Have a crisp 60-second pitch and your motivation ready.",
+   answer:"Lead with your 60-second story: '10+ years building cloud-native web platforms; currently lead on EA's Help Center — micro-frontends, serverless APIs, and an MCP-based agentic delivery workflow.' Be ready for: why you're looking, comp expectations, notice period, and 2–3 thoughtful questions about the team/role. Match your pitch to the JD's keywords."},
+  {type:"concept", q:"DSA / coding screen — what's expected at senior level?",
+   approach:"It's about communication and patterns, not memorising 500 problems.",
+   answer:"Clarify the problem and constraints, state a brute-force then optimise, name the pattern (hashmap, two-pointer, sliding window, BFS/DFS), state time/space, write clean code, and test with edge cases out loud. At senior level, communication and trade-off reasoning matter as much as the optimal solution. Practice the common patterns, not every problem."},
+  {type:"concept", q:"Frontend coding round — how do you stand out?",
+   approach:"They watch how you build, not just the final result.",
+   answer:"You'll build/extend a component (e.g. typeahead, tabs, a form). Show: a sensible component API, accessibility, state/edge cases (loading/empty/error), clean incremental commits, and you talking through trade-offs. Don't gold-plate — get a working vertical slice first, then improve. Tests or a quick refactor at the end signal seniority."},
+  {type:"concept", q:"System design round — how do you drive it?",
+   approach:"Own the structure; make the trade-offs explicit.",
+   answer:"Drive the framework (requirements → estimate → API → data → HLD → scale → trade-offs). Think out loud, draw the diagram, and proactively surface bottlenecks and how you'd mitigate them (caching, sharding, queues, SPOFs). Tie it to real systems you've built — e.g. the Help Center's edge caching, BFF aggregation, and the Nebula SPOF mitigation. Ask clarifying questions early."},
+  {type:"concept", q:"Architecture / bar-raiser round — what are they really testing?",
+   approach:"Depth, judgment, and how you handle pushback under pressure.",
+   answer:"They probe a system you've owned end-to-end and pressure-test your decisions: 'why this, not that?', 'what broke?', 'what would you change?'. Bring an architecture diagram and war stories. Volunteer the weak spots (the SPOF, the two-ALB trade-off) and your mitigations — owning limitations signals seniority more than claiming perfection. Stay calm and reason openly when challenged."},
+  {type:"behavioral", q:"Behavioral / leadership round — how do you prepare?",
+   approach:"Have 5–6 STAR stories that flex across many questions.",
+   answer:"Prepare 5–6 <b>STAR</b> stories (Situation, Task, Action, Result) covering: a hard trade-off, a conflict/disagreement, a failure + lesson, leading a migration, mentoring, and a production incident. Quantify results where you can. Map each story to multiple likely prompts so you're never caught flat. Be honest about failures and what you changed afterward — that's what they're listening for."}
+]}
+];
+
+/* ============ APP ============ */
+const tilesEl=document.getElementById('tiles');
+const home=document.getElementById('home'), quiz=document.getElementById('quiz');
+let cur=null, idx=0, seen={};
+
+TOPICS.forEach(t=>{
+  const d=document.createElement('div'); d.className='tile';
+  d.innerHTML=`<div class="bar"></div><div class="ic">${t.icon}</div><h3>${t.name}</h3>
+    <p>${t.desc}</p><div class="cnt">${t.qs.length} questions</div>`;
+  d.onclick=()=>openTopic(t.id);
+  tilesEl.appendChild(d);
+});
+
+function openTopic(id){
+  cur=TOPICS.find(t=>t.id===id); idx=0; seen[id]=seen[id]||new Set();
+  home.style.display='none'; quiz.style.display='block';
+  document.getElementById('qcat').textContent=cur.icon+'  '+cur.name;
+  buildDots(); render(); window.scrollTo(0,0);
+}
+function buildDots(){
+  const dots=document.getElementById('dots'); dots.innerHTML='';
+  cur.qs.forEach((q,i)=>{
+    const s=document.createElement('div'); s.className='dot';
+    s.onclick=()=>{idx=i;render();};
+    dots.appendChild(s);
+  });
+}
+function render(){
+  const q=cur.qs[idx];
+  document.getElementById('prog').textContent=`Question ${idx+1} of ${cur.qs.length}`;
+  const badge=document.getElementById('qbadge');
+  const labels={concept:'Concept',coding:'Coding',system:'System Design',behavioral:'Behavioral',dsa:'Algorithms',pattern:'Design Pattern'};
+  badge.className='badge b-'+q.type; badge.textContent=labels[q.type];
+  document.getElementById('qtext').innerHTML=q.q;
+  const ans=document.getElementById('answer'); ans.style.display='none'; ans.innerHTML='';
+  const sb=document.getElementById('showBtn'); sb.style.display='inline-block'; sb.textContent='Show Answer ▾';
+  sb.onclick=()=>revealAnswer(q,ans,sb);
+  // dots state
+  [...document.getElementById('dots').children].forEach((d,i)=>{
+    d.className='dot'+(i===idx?' cur':'')+(seen[cur.id].has(i)?' seen':'');
+  });
+  document.getElementById('prev').disabled = idx===0;
+  document.getElementById('next').disabled = idx===cur.qs.length-1;
+}
+function esc(s){return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function revealAnswer(q,ans,sb){
+  seen[cur.id].add(idx);
+  let html='<h4>How to approach it</h4><div class="approach">'+q.approach+'</div>';
+  html+='<h4>'+(q.code?'Answer & code':q.type==='behavioral'?'Model answer':'Answer')+'</h4>';
+  html+='<div class="body">'+q.answer+'</div>';
+  if(q.diagram){ html+='<div class="diagram">'+q.diagram+'</div>'; }
+  if(q.code){ html+='<pre>'+esc(q.code)+'</pre>'; }
+  ans.innerHTML=html; ans.style.display='block'; sb.style.display='none';
+  [...document.getElementById('dots').children][idx].classList.add('seen');
+}
+document.getElementById('next').onclick=()=>{ if(idx<cur.qs.length-1){idx++;render();window.scrollTo(0,0);} };
+document.getElementById('prev').onclick=()=>{ if(idx>0){idx--;render();window.scrollTo(0,0);} };
+document.getElementById('backHome').onclick=()=>{ quiz.style.display='none'; home.style.display='block'; window.scrollTo(0,0); };
+
+/* keyboard nav */
+document.addEventListener('keydown',e=>{
+  if(quiz.style.display!=='block')return;
+  if(e.key==='ArrowRight')document.getElementById('next').click();
+  if(e.key==='ArrowLeft')document.getElementById('prev').click();
+  if(e.key===' '){e.preventDefault();const sb=document.getElementById('showBtn');if(sb.style.display!=='none')sb.click();}
+});
+
+/* theme */
+const themeBtn=document.getElementById('theme');
+themeBtn.onclick=()=>{document.body.classList.toggle('light');
+  themeBtn.textContent=document.body.classList.contains('light')?'☀️':'🌙';};
+</script>
+</body>
+</html>
